@@ -3,8 +3,6 @@ package com.kodilla.ecommercee;
 import com.kodilla.ecommercee.user.UserDto;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("v1/user")
 public class UserController {
@@ -13,19 +11,11 @@ public class UserController {
     public void getAllUsers() {
     }
 
-    @GetMapping("getUser")
-    public void getUser() {
-    }
-
     @PostMapping("createUser")
-    public void createUser(@RequestBody List<UserDto> users) {
+    public void createUser(@RequestBody UserDto user) {
     }
 
-    @PutMapping("updateUser")
-    public void updateUser(@RequestParam int id) {
-    }
-
-    @DeleteMapping("deleteUser")
-    public void deleteUser(@RequestParam int id) {
+    @PutMapping("blockUser")
+    public void blockUser(@RequestBody UserDto user, @RequestParam String status) {
     }
 }
