@@ -1,6 +1,6 @@
 package com.kodilla.ecommercee;
 
-import com.kodilla.ecommercee.domain.user.UserDto;
+import com.kodilla.ecommercee.user.UserDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
