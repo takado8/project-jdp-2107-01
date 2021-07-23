@@ -16,6 +16,6 @@ public class UserController {
     }
 
     @PutMapping("blockUser")
-    public void blockUser(@RequestBody UserDto user, @RequestParam String status) {
+    public void blockUser(@RequestBody UserDto user) {
     }
 }
