@@ -1,7 +1,7 @@
 package com.kodilla.ecommercee.cart.controller;
 
 import com.kodilla.ecommercee.cart.domain.CartDto;
-import com.kodilla.ecommercee.cart.domain.ProductDto;
+import com.kodilla.ecommercee.product.domain.ProductDto;
 import com.kodilla.ecommercee.order.domain.OrderDto;
 import org.springframework.web.bind.annotation.*;
 
