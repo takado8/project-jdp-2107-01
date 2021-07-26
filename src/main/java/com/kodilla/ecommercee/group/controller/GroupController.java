@@ -16,17 +16,17 @@ public class GroupController {
     }
 
     @GetMapping(path = "getGroup")
-    public GroupDto getGroup(Long groupId) {
+    public GroupDto getGroup(@RequestParam Long groupId) {
         return new GroupDto();
     }
 
     @PostMapping(path = "createGroup")
-    public void createGroup(GroupDto groupDto) {
+    public void createGroup(@RequestBody GroupDto groupDto) {
 
     }
 
     @PutMapping(path = "updateGroup")
-    public GroupDto updateGroup(GroupDto groupDto) {
+    public GroupDto updateGroup(@RequestBody GroupDto groupDto) {
         return new GroupDto();
     }
 }
