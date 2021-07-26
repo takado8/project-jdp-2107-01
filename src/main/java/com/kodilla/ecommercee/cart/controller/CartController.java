@@ -1,7 +1,8 @@
 package com.kodilla.ecommercee.cart.controller;
 
 import com.kodilla.ecommercee.cart.domain.CartDto;
-import com.kodilla.ecommercee.common.domain.ProductDto;
+import com.kodilla.ecommercee.cart.domain.ProductDto;
+import com.kodilla.ecommercee.order.domain.OrderDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -24,7 +25,7 @@ public class CartController {
     }
 
     @PostMapping(path = "add")
-    public void addProducts(@RequestBody List<ProductDto> products, @RequestParam Long cartId) {
+    public void addProduct(@RequestParam Long productId, @RequestParam Long cartId) {
     }
 
     @DeleteMapping(path = "delete")
@@ -32,7 +33,8 @@ public class CartController {
     }
 
     @PostMapping(path = "createOrder")
-    public void createOrder(@RequestParam Long cartId) {
+    public OrderDto createOrder(@RequestParam Long cartId) {
+        return new OrderDto(1L, 1L, 100);
     }
 
 }
