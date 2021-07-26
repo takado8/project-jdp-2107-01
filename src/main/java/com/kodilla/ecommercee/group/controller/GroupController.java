@@ -17,7 +17,7 @@ public class GroupController {
 
     @GetMapping(path = "getGroup")
     public GroupDto getGroup(Long groupId) {
-        return new GroupDto(1L, "test_name");
+        return new GroupDto();
     }
 
     @PostMapping(path = "createGroup")
@@ -27,6 +27,6 @@ public class GroupController {
 
     @PutMapping(path = "updateGroup")
     public GroupDto updateGroup(GroupDto groupDto) {
-        return new GroupDto(1L, "test_name");
+        return new GroupDto();
     }
 }
