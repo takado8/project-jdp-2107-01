@@ -1,4 +1,4 @@
-package com.kodilla.ecommercee;
+package com.kodilla.ecommercee.user.controller;
 
 import com.kodilla.ecommercee.user.UserDto;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package com.kodilla.ecommercee.cart.domain.dao;
+package com.kodilla.ecommercee.cart.repository;
 
 import com.kodilla.ecommercee.cart.domain.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;

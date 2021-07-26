@@ -1,6 +1,7 @@
 package com.kodilla.ecommercee.cart.domain;
 
 import com.kodilla.ecommercee.product.domain.Product;
+import com.kodilla.ecommercee.user.domain.User;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,14 +15,28 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "CARTS")
-public final class Cart {
+public class Cart {
 
     @Id
     @GeneratedValue
     @NotNull
-    @Column(name = "ID")
+    @Column(name = "ID", unique = true)
     private Long id;
+
+    @NotNull
+    @Column(name = "NAME")
+    private String name;
+
+    @NotNull
+    @Column(name = "DESCRIPTION")
+    private String description;
+
+    @NotNull
+    @Column(name = "PRICE")
+    private double price;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    private User user;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
