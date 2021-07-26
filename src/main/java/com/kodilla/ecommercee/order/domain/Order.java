@@ -1,4 +1,4 @@
-package com.kodilla.ecommercee;
+package com.kodilla.ecommercee.order.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,10 +16,10 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Setter
 @Getter
-public class Cart {
+public class Order {
     @Id
     @GeneratedValue
     @NotNull
-    @Column(name = "ID",unique = true)
+    @Column(name = "ID", unique = true)
     private Long id;
 }

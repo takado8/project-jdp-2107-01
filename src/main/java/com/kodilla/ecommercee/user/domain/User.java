@@ -1,6 +1,6 @@
-package com.kodilla.ecommercee;
+package com.kodilla.ecommercee.user.domain;
 
-import lombok.AllArgsConstructor;
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,17 +9,16 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
 
-@Entity
-@AllArgsConstructor
 @NoArgsConstructor
-@Setter
 @Getter
-public class Order {
+@Setter
+@Entity
+public class User {
+
     @Id
     @GeneratedValue
     @NotNull
-    @Column(name = "ID",unique = true)
+    @Column(name = "ID", unique = true)
     private Long id;
 }
