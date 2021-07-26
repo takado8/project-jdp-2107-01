@@ -1,6 +1,6 @@
-package com.kodilla.ecommercee.order.domain.dao;
+package com.kodilla.ecommercee.cart.repository;
 
-import com.kodilla.ecommercee.order.domain.Order;
+import com.kodilla.ecommercee.cart.domain.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,5 +8,5 @@ import javax.transaction.Transactional;
 
 @Transactional
 @Repository
-public interface OrderDao extends JpaRepository<Order, Long> {
+public interface CartDao extends JpaRepository<Cart, Long> {
 }

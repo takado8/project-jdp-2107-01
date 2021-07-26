@@ -1,4 +1,4 @@
-package com.kodilla.ecommercee.order.domain;
+package com.kodilla.ecommercee.group.domain;
 
 import com.kodilla.ecommercee.product.domain.Product;
 import lombok.AllArgsConstructor;
@@ -8,31 +8,35 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 @Entity
-public class Order {
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
+public class Group {
 
     @Id
     @GeneratedValue
     @NotNull
-    @Column(name = "ID", unique = true)
+    @Column(name = "ID",unique = true)
     private Long id;
 
     @NotNull
-    @Column(name = "VALUE")
-    private double value;
+    @Column(name = "NAME")
+    private String name;
 
     @NotNull
-    @Column(name = "DATE")
-    private LocalDate dateOfOrder;
+    @Column(name = "GROUPCOL")
+    private String groupcol;
 
-    @ManyToMany(mappedBy = "orders")
+    @OneToMany(
+            targetEntity = Product.class,
+            mappedBy = "group",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
     private List<Product> products = new ArrayList<>();
 }
