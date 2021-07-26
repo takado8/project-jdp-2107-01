@@ -1,8 +1,8 @@
 package com.kodilla.ecommercee.product.domain;
 
 import com.kodilla.ecommercee.Cart;
-import com.kodilla.ecommercee.Group;
 import com.kodilla.ecommercee.Order;
+import com.kodilla.ecommercee.group.domain.Group;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
