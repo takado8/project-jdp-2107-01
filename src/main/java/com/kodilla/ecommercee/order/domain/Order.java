@@ -1,6 +1,7 @@
-package com.kodilla.ecommercee.group.domain;
+package com.kodilla.ecommercee.order.domain;
 
 import com.kodilla.ecommercee.product.domain.Product;
+import com.kodilla.ecommercee.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,16 +9,17 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@AllArgsConstructor
 @NoArgsConstructor
-@Setter
+@AllArgsConstructor
 @Getter
+@Setter
 @Entity
-@Table(name = "product_group")
-public class Group {
+@Table(name = "product_order")
+public class Order {
 
     @Id
     @GeneratedValue
@@ -26,13 +28,17 @@ public class Group {
     private Long id;
 
     @NotNull
-    @Column(name = "NAME")
-    private String name;
+    @Column(name = "PRICE")
+    private double price;
 
-    @OneToMany(
-            targetEntity = Product.class,
-            mappedBy = "groupId",
-            fetch = FetchType.LAZY
-    )
+    @NotNull
+    @Column(name = "DATE")
+    private LocalDate dateOfOrder;
+
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    private User userId;
+
+    @ManyToMany(mappedBy = "orders")
     private List<Product> products = new ArrayList<>();
 }

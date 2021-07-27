@@ -1,7 +1,7 @@
 package com.kodilla.ecommercee.user.domain;
 
-import com.kodilla.ecommercee.Cart;
-import com.kodilla.ecommercee.Order;
+import com.kodilla.ecommercee.cart.domain.Cart;
+import com.kodilla.ecommercee.order.domain.Order;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -44,15 +45,12 @@ public class User {
     @Column(name = "PASSWORD")
     private String password;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "CART_ID")
-    private Cart cart;
-
     @OneToMany(
             targetEntity = Order.class,
-            mappedBy = "user",
+            mappedBy = "userId",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    public List<Order> orders;
+    private List<Order> orders = new ArrayList<>();
+
 }
