@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "product_group")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -21,7 +22,7 @@ public class Group {
     @Id
     @GeneratedValue
     @NotNull
-    @Column(name = "ID",unique = true)
+    @Column(name = "ID", unique = true)
     private Long id;
 
     @NotNull
@@ -34,8 +35,7 @@ public class Group {
 
     @OneToMany(
             targetEntity = Product.class,
-            mappedBy = "group",
-            cascade = CascadeType.ALL,
+            mappedBy = "productGroup",
             fetch = FetchType.LAZY
     )
     private List<Product> products = new ArrayList<>();
