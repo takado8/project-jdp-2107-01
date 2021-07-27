@@ -1,14 +1,12 @@
 package com.kodilla.ecommercee.user.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Random;
 
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
+@Setter
 public class UserDto {
     private Long id;
     private String username;
@@ -18,12 +16,18 @@ public class UserDto {
     private Long userKey;
     private boolean isBlocked;
 
-    public void setUserKey(Long userKey) {
-        Random random = new Random();
-        this.userKey = random.nextLong();
+    public UserDto(Long id, String username, String email, String password, String status, boolean isBlocked) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.status = status;
+        this.userKey = generateRandomKey();
+        this.isBlocked = isBlocked;
     }
 
-    public void blockUser(boolean isBlocked) {
-        this.isBlocked = !isBlocked;
+    private Long generateRandomKey() {
+        return new Random().nextLong();
     }
 }
+
