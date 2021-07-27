@@ -1,6 +1,7 @@
 package com.kodilla.ecommercee.order.domain;
 
 import com.kodilla.ecommercee.product.domain.Product;
+import com.kodilla.ecommercee.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,12 +27,16 @@ public class Order {
     private Long id;
 
     @NotNull
-    @Column(name = "VALUE")
-    private double value;
+    @Column(name = "PRICE")
+    private double price;
 
     @NotNull
     @Column(name = "DATE")
     private LocalDate dateOfOrder;
+
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    private User userId;
 
     @ManyToMany(mappedBy = "orders")
     private List<Product> products = new ArrayList<>();

@@ -11,31 +11,27 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
+@Entity
+@Table(name = "product_group")
 public class Group {
 
     @Id
     @GeneratedValue
     @NotNull
-    @Column(name = "ID",unique = true)
+    @Column(name = "ID", unique = true)
     private Long id;
 
     @NotNull
     @Column(name = "NAME")
     private String name;
 
-    @NotNull
-    @Column(name = "GROUPCOL")
-    private String groupcol;
-
     @OneToMany(
             targetEntity = Product.class,
-            mappedBy = "group",
-            cascade = CascadeType.ALL,
+            mappedBy = "groupId",
             fetch = FetchType.LAZY
     )
     private List<Product> products = new ArrayList<>();
