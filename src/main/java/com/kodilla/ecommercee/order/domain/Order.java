@@ -18,7 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "product_order")
+@Table(name = "ORDERS")
 public class Order {
 
     @Id
@@ -39,6 +39,11 @@ public class Order {
     @JoinColumn(name = "USER_ID")
     private User userId;
 
-    @ManyToMany(mappedBy = "orders")
+    @ManyToMany
+    @JoinTable(
+            name = "ORDERS_PRODUCTS",
+            joinColumns = {@JoinColumn(name = "ORDER_ID", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID")}
+    )
     private List<Product> products = new ArrayList<>();
 }

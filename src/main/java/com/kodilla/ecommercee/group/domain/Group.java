@@ -13,10 +13,10 @@ import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
 @Getter
+@Setter
 @Entity
-@Table(name = "product_group")
+@Table(name = "PRODUCT_GROUPS")
 public class Group {
 
     @Id

@@ -42,12 +42,7 @@ public class Product {
     @JoinColumn(name = "`GROUP_ID")
     private Group groupId;
 
-    @ManyToMany
-    @JoinTable(
-            name = "PRODUCTS_ORDERS",
-            joinColumns = @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "ORDER_ID", referencedColumnName = "ID")
-    )
+    @ManyToMany(mappedBy = "products")
     private List<Order> orders = new ArrayList<>();
 
     @ManyToMany(mappedBy = "products")
