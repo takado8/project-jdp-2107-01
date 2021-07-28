@@ -11,12 +11,12 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "PRODUCT_GROUPS")
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
 @Getter
+@Setter
+@Entity
+@Table(name = "PRODUCT_GROUPS")
 public class Group {
 
     @Id
@@ -29,13 +29,9 @@ public class Group {
     @Column(name = "NAME")
     private String name;
 
-    @NotNull
-    @Column(name = "GROUPCOL")
-    private String groupcol;
-
     @OneToMany(
             targetEntity = Product.class,
-            mappedBy = "productGroup",
+            mappedBy = "groupId",
             fetch = FetchType.LAZY
     )
     private List<Product> products = new ArrayList<>();

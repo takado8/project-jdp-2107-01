@@ -14,11 +14,11 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@AllArgsConstructor
 @NoArgsConstructor
-@Setter
+@AllArgsConstructor
 @Getter
+@Setter
+@Entity
 public class Product {
 
     @Id
@@ -31,7 +31,7 @@ public class Product {
     @Column(name = "NAME")
     private String name;
 
-    @Column(name = "DESCRIPTION")
+    @Column(name = "DESC")
     private String description;
 
     @NotNull
@@ -39,13 +39,13 @@ public class Product {
     private double price;
 
     @ManyToOne
-    @JoinColumn(name = "PRODUCT_GROUPS")
-    private Group productGroup;
+    @JoinColumn(name = "`GROUP_ID")
+    private Group groupId;
 
     @ManyToMany(mappedBy = "products")
     private List<Order> orders = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "productList")
+    @ManyToMany(mappedBy = "products")
     private List<Cart> carts = new ArrayList<>();
 
     public Product(@NotNull String name, @NotNull double price) {
