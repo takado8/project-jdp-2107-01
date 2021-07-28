@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @RunWith(SpringRunner.class)
@@ -33,14 +34,13 @@ public class CartTestSuite {
         User user = new User();
         Product product = new Product("kurtka", 178.99);
         Cart cart = new Cart("cartName", "cartDescription", 120.50, user);
-        cart.getProductList().add(product);
-
-        //When
+        cart.getProducts().add(product);
         userDao.save(user);
         productDao.save(product);
         cartDao.save(cart);
-
         long id = cart.getId();
+
+        //When
         Optional<Cart> savedCart = cartDao.findById(id);
 
         //Then
@@ -58,18 +58,17 @@ public class CartTestSuite {
         User user = new User();
         Product product = new Product("kurtka", 178.99);
         Cart cart = new Cart("cartName", "cartDescription", 120.50, user);
-        cart.getProductList().add(product);
+        cart.getProducts().add(product);
         product.getCarts().add(cart);
-
-        //When
         userDao.save(user);
         productDao.save(product);
         cartDao.save(cart);
-
         long id = cart.getId();
+
+        //When
         Optional<Cart> optionalCart = cartDao.findById(id);
         Cart savedCart = optionalCart.orElseThrow(() -> new RuntimeException("No Cart"));
-        String productName = savedCart.getProductList().get(0).getName();
+        String productName = savedCart.getProducts().get(0).getName();
 
         //Then
         Assert.assertEquals("kurtka", productName);
@@ -86,20 +85,21 @@ public class CartTestSuite {
         User user = new User();
         Product product = new Product("kurtka", 178.99);
         Cart cart = new Cart("cartName", "cartDescription", 120.50, user);
-        cart.getProductList().add(product);
+        cart.getProducts().add(product);
         product.getCarts().add(cart);
-
-        //When
+        user.setUsername("Pawel");
         userDao.save(user);
         productDao.save(product);
         cartDao.save(cart);
         long id = cart.getId();
+
+        //When
         Optional<Cart> optionalCart = cartDao.findById(id);
         Cart savedCart = optionalCart.orElseThrow(() -> new RuntimeException("No Cart"));
 
-
         //Then
-        Assert.assertEquals(user,savedCart.getUser());
+        Assert.assertEquals(user,savedCart.getUserID());
+        Assert.assertEquals("Pawel", savedCart.getUserID().getUsername());
 
         //Clean up
         cartDao.deleteById(cart.getId());
@@ -113,26 +113,23 @@ public class CartTestSuite {
         User user = new User();
         Product product = new Product("kurtka", 178.99);
         Cart cart = new Cart("cartName", "cartDescription", 120.50, user);
-        cart.getProductList().add(product);
+        cart.getProducts().add(product);
         product.getCarts().add(cart);
-
-        //When
         userDao.save(user);
         productDao.save(product);
         cartDao.save(cart);
-
         long id = cart.getId();
-        Optional<Cart> optionalCart = cartDao.findById(id);
-        Cart savedCart = optionalCart.orElseThrow(() -> new RuntimeException("No Cart"));
-        savedCart.setName("changedCart");
 
+        //When
+        Optional<Cart> optionalSavedCart = cartDao.findById(id);
+        Cart savedCart = optionalSavedCart.orElseThrow(() -> new RuntimeException("No Cart"));
+        savedCart.setName("changedCart");
         cartDao.save(savedCart);
-        long changedCartId = savedCart.getId();
-        Optional<Cart> optionalChangedCart = cartDao.findById(changedCartId);
+
+        Optional<Cart> optionalChangedCart = cartDao.findById(id);
         Cart changedCart = optionalChangedCart.orElseThrow(() -> new RuntimeException("No Cart"));
 
         //Then
-        Assert.assertEquals(1, cartDao.findAll().size());
         Assert.assertEquals("changedCart", changedCart.getName());
 
         //Clean up
@@ -147,19 +144,19 @@ public class CartTestSuite {
         User user = new User();
         Product product = new Product("kurtka", 178.99);
         Cart cart = new Cart("cartName", "cartDescription", 120.50, user);
-        cart.getProductList().add(product);
+        cart.getProducts().add(product);
         product.getCarts().add(cart);
-
-        //When
         userDao.save(user);
         productDao.save(product);
         cartDao.save(cart);
-
         long id = cart.getId();
+
+        //When
         Optional<Cart> optionalCart = cartDao.findById(id);
         Cart savedCart = optionalCart.orElseThrow(() -> new RuntimeException("No Cart"));
         long savedCartId = savedCart.getId();
         cartDao.deleteById(savedCartId);
+
         //Then
         Assert.assertFalse(cartDao.findById(savedCartId).isPresent());
 
