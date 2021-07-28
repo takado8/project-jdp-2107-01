@@ -39,15 +39,10 @@ public class Product {
     private double price;
 
     @ManyToOne
-    @JoinColumn(name = "GROUP")
+    @JoinColumn(name = "PRODUCT_GROUPS")
     private Group productGroup;
 
-    @ManyToMany
-    @JoinTable(
-            name = "PRODUCTS_ORDERS",
-            joinColumns = @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "ORDER_ID", referencedColumnName = "ID")
-    )
+    @ManyToMany(mappedBy = "products")
     private List<Order> orders = new ArrayList<>();
 
     @ManyToMany(mappedBy = "productList")

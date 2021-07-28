@@ -38,7 +38,7 @@ public class Cart {
     @OneToOne(fetch = FetchType.EAGER)
     private User user;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "JOIN_CARTS_PRODUCTS",
             joinColumns = {@JoinColumn(name = "CART_ID", referencedColumnName = "ID")},
