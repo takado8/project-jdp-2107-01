@@ -2,16 +2,18 @@ package com.kodilla.ecommercee.cart.domain;
 
 import com.kodilla.ecommercee.product.domain.Product;
 import com.kodilla.ecommercee.user.domain.User;
-import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -36,13 +38,14 @@ public class Cart {
     private double price;
 
     @OneToOne(fetch = FetchType.EAGER)
-    private User user;
+    @JoinColumn(name = "USER_ID")
+    private User userID;
 
     @ManyToMany
     @JoinTable(
-            name = "JOIN_CARTS_PRODUCTS",
+            name = "CARTS_PRODUCTS",
             joinColumns = {@JoinColumn(name = "CART_ID", referencedColumnName = "ID")},
             inverseJoinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID")}
     )
-    private List<Product> productList = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
 }
