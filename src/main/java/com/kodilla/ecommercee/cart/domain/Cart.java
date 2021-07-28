@@ -45,4 +45,11 @@ public class Cart {
             inverseJoinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID")}
     )
     private List<Product> productList = new ArrayList<>();
+
+    public Cart(String name, String description, double price, User user) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.user = user;
+    }
 }
