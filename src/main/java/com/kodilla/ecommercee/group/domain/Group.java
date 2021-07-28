@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "product_group")
+@Table(name = "PRODUCT_GROUPS")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter

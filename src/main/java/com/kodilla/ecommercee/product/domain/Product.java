@@ -39,7 +39,7 @@ public class Product {
     private double price;
 
     @ManyToOne
-    @JoinColumn(name = "product_group")
+    @JoinColumn(name = "PRODUCT_GROUPS")
     private Group productGroup;
 
     @ManyToMany(mappedBy = "products")
