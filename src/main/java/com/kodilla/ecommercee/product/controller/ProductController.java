@@ -16,20 +16,20 @@ public class ProductController {
     }
 
     @GetMapping(value = "/getProduct/{id}")
-    public ProductDto getProduct (Long id) {
+    public ProductDto getProduct (@PathVariable Long id) {
         return new ProductDto(1L,"Product","Description", 100,1L);
     }
 
     @PostMapping(value = "createProduct")
-    public void createProduct(ProductDto productDto) {
+    public void createProduct(@RequestBody ProductDto productDto) {
     }
 
     @PutMapping(value ="updateProduct")
-    public ProductDto updateProduct(ProductDto productDto) {
+    public ProductDto updateProduct(@RequestBody ProductDto productDto) {
         return new ProductDto(1L, "Updated Product", "Updated Description",90, 1L);
     }
 
     @DeleteMapping(value = "/deleteProduct/{id}")
-    public void deleteTask(Long id) {
+    public void deleteTask(@PathVariable Long id) {
     }
 }
