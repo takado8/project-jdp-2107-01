@@ -33,18 +33,17 @@ public class GroupTestSuite {
     private GroupDao groupDao;
 
     @Test
-    void testGroupSave() {
+    public void testGroupSave() {
         //Given
-//        Product product = new Product(3L, "spodnie", "desc", 50, null, null, null);
-        Group group = new Group(2L, "nazwa_grupy", new ArrayList<>());
-//        group.getProducts().add(product);
+        Group group = new Group(null, "nazwa_grupy", new ArrayList<>());
 
         //When
         groupDao.save(group);
         long id = group.getId();
+        Optional<Group> optionalGroup = groupDao.findById(id);
 
         //Then
-        Assert.assertEquals(2L, id);
+        Assert.assertTrue(optionalGroup.isPresent());
 
         //CleanUp
         groupDao.deleteById(id);
