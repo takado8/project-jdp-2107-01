@@ -31,7 +31,7 @@ public class Product {
     @Column(name = "NAME")
     private String name;
 
-    @Column(name = "DESC")
+    @Column(name = "DESCRIPTION")
     private String description;
 
     @NotNull
@@ -39,7 +39,7 @@ public class Product {
     private double price;
 
     @ManyToOne
-    @JoinColumn(name = "`GROUP_ID")
+    @JoinColumn(name = "GROUP_ID")
     private Group groupId;
 
     @ManyToMany(mappedBy = "products")
