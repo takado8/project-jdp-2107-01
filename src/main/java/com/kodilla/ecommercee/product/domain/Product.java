@@ -47,4 +47,9 @@ public class Product {
 
     @ManyToMany(mappedBy = "products")
     private List<Cart> carts = new ArrayList<>();
+
+    public Product(@NotNull String name, @NotNull double price) {
+        this.name = name;
+        this.price = price;
+    }
 }
