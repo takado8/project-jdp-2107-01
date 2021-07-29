@@ -1,6 +1,7 @@
 package com.kodilla.ecommercee.product.controller;
 
 import com.kodilla.ecommercee.product.domain.ProductDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/product")
+@RequiredArgsConstructor
 public class ProductController {
 
     @GetMapping(value = "getProducts")
@@ -15,8 +17,8 @@ public class ProductController {
         return new ArrayList<>();
     }
 
-    @GetMapping(value = "/getProduct/{id}")
-    public ProductDto getProduct (@PathVariable Long id) {
+    @GetMapping(value = "getProduct")
+    public ProductDto getProduct (@RequestBody Long id) {
         return new ProductDto(1L,"Product","Description", 100,1L);
     }
 
@@ -29,7 +31,7 @@ public class ProductController {
         return new ProductDto(1L, "Updated Product", "Updated Description",90, 1L);
     }
 
-    @DeleteMapping(value = "/deleteProduct/{id}")
-    public void deleteTask(@PathVariable Long id) {
+    @DeleteMapping(value = "deleteProduct")
+    public void deleteTask(@RequestBody Long id) {
     }
 }
