@@ -10,7 +10,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -45,5 +44,5 @@ public class Order {
             joinColumns = {@JoinColumn(name = "ORDER_ID", referencedColumnName = "ID")},
             inverseJoinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID")}
     )
-    private List<Product> products = new ArrayList<>();
+    private List<Product> products;
 }

@@ -1,6 +1,5 @@
 package com.kodilla.ecommercee.order.domain;
 
-import com.kodilla.ecommercee.product.domain.Product;
 import com.kodilla.ecommercee.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,5 +16,5 @@ public class OrderDto {
     private double price;
     private LocalDate dateOfOrder;
     private User userId;
-    private List<Product> products;
+    private List<Long> productsId;
 }

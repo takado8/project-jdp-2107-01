@@ -2,6 +2,8 @@ package com.kodilla.ecommercee.order.mapper;
 
 import com.kodilla.ecommercee.order.domain.Order;
 import com.kodilla.ecommercee.order.domain.OrderDto;
+import com.kodilla.ecommercee.product.controller.ProductController;
+import com.kodilla.ecommercee.product.domain.Product;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +17,7 @@ public class OrderMapper {
                 orderDto.getId(),
                 orderDto.getPrice(),
                 orderDto.getDateOfOrder(),
-                orderDto.getUserId(),
-                orderDto.getProducts()
+                orderDto.getUserId()
         );
     }
 
@@ -26,7 +27,9 @@ public class OrderMapper {
                 order.getPrice(),
                 order.getDateOfOrder(),
                 order.getUserId(),
-                order.getProducts()
+                order.getProducts().stream()
+                        .map(Product::getId)
+                        .collect(Collectors.toList())
         );
     }
 
