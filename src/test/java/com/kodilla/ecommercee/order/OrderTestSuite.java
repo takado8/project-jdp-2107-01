@@ -15,9 +15,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
+import static org.springframework.test.web.servlet.result.StatusResultMatchersExtensionsKt.isEqualTo;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -117,7 +119,7 @@ public class OrderTestSuite {
     }
 
     @Test
-    public void testDeleteOrderDao() {
+    public void testDeleteOrderDaoWithoutDeletingUser() {
         //Given
         User user = new User();
         User user2 = new User();
@@ -131,14 +133,12 @@ public class OrderTestSuite {
         orderDao.save(order2);
 
         //Then
-        Long orderId = order.getId();
-        Long order2Id = order2.getId();
-        Optional<Order> readOrder = orderDao.findById(orderId);
-        Optional<Order> readOrder2 = orderDao.findById(order2Id);
-        orderDao.deleteById(readOrder.get().getId());
-        orderDao.deleteById(readOrder2.get().getId());
-        assertFalse(orderDao.findById(readOrder.get().getId()).isPresent());
-        assertFalse(orderDao.findById(readOrder2.get().getId()).isPresent());
+        orderDao.deleteById(order.getId());
+        orderDao.deleteById(order2.getId());
+        assertFalse(orderDao.findById(order.getId()).isPresent());
+        assertFalse(orderDao.findById(order2.getId()).isPresent());
+        assertTrue(userDao.findById(user.getId()).isPresent());
+        assertTrue(userDao.findById(user2.getId()).isPresent());
 
         //CleanUp
         try {
@@ -146,6 +146,102 @@ public class OrderTestSuite {
             orderDao.deleteById(order2.getId());
             userDao.deleteById(user.getId());
             userDao.deleteById(user2.getId());
+        } catch (Exception e) {
+
+        }
+    }
+
+    @Test
+    public void testDeleteOrderDaoWithoutDeletingProduct() {
+        //Given
+        User user = new User();
+        User user2 = new User();
+        Order order = new Order(2485.6, LocalDate.of(2021, 9, 8), user);
+        Order order2 = new Order(305.7, LocalDate.of(2021, 9, 8), user2);
+        Product product = new Product("name product 2", 145.71);
+        Product product2 = new Product("name product 3", 159.99);
+
+        order2.getProducts().add(product);
+        order2.getProducts().add(product2);
+
+        product.getOrders().add(order2);
+        product2.getOrders().add(order2);
+
+
+        //When
+        productDao.save(product);
+        productDao.save(product2);
+        userDao.save(user);
+        userDao.save(user2);
+        orderDao.save(order);
+        orderDao.save(order2);
+
+        //Then
+        orderDao.deleteById(order.getId());
+        orderDao.deleteById(order2.getId());
+        assertTrue(productDao.findById(product.getId()).isPresent());
+        assertTrue(productDao.findById(product2.getId()).isPresent());
+        assertFalse(orderDao.findById(order.getId()).isPresent());
+        assertFalse(orderDao.findById(order2.getId()).isPresent());
+        assertTrue(userDao.findById(user.getId()).isPresent());
+        assertTrue(userDao.findById(user2.getId()).isPresent());
+
+        //CleanUp
+        try {
+            orderDao.deleteById(order.getId());
+            orderDao.deleteById(order2.getId());
+            userDao.deleteById(user.getId());
+            userDao.deleteById(user2.getId());
+            productDao.deleteById(product.getId());
+            productDao.deleteById(product2.getId());
+        } catch (Exception e) {
+
+        }
+    }
+
+    @Test
+    public void testDeleteProductDaoWithoutDeletingOrder() {
+        //Given
+        User user = new User();
+        User user2 = new User();
+        Order order = new Order(2485.6, LocalDate.of(2021, 9, 8), user);
+        Order order2 = new Order(305.7, LocalDate.of(2021, 9, 8), user2);
+        Product product = new Product("name product 2", 145.71);
+        Product product2 = new Product("name product 3", 159.99);
+
+        order2.getProducts().add(product);
+        order2.getProducts().add(product2);
+
+        product.getOrders().add(order2);
+        product2.getOrders().add(order2);
+
+
+        //When
+        productDao.save(product);
+        productDao.save(product2);
+        userDao.save(user);
+        userDao.save(user2);
+        orderDao.save(order);
+        orderDao.save(order2);
+
+        //Then
+        productDao.deleteById(product.getId());
+        productDao.deleteById(product2.getId());
+        assertFalse(productDao.findById(product.getId()).isPresent());
+        assertFalse(productDao.findById(product2.getId()).isPresent());
+        assertTrue(orderDao.findById(order.getId()).isPresent());
+        assertTrue(orderDao.findById(order2.getId()).isPresent());
+        assertTrue(userDao.findById(user.getId()).isPresent());
+        assertTrue(userDao.findById(user2.getId()).isPresent());
+
+        //CleanUp
+        try {
+            orderDao.deleteById(order.getId());
+            orderDao.deleteById(order2.getId());
+            userDao.deleteById(user.getId());
+            userDao.deleteById(user2.getId());
+            productDao.deleteById(product.getId());
+            productDao.deleteById(product2.getId());
         } catch (Exception e) {
 
         }
