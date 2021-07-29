@@ -1,6 +1,9 @@
 package com.kodilla.ecommercee.user.controller;
 
+import com.kodilla.ecommercee.user.UserMapper;
 import com.kodilla.ecommercee.user.domain.UserDto;
+import com.kodilla.ecommercee.user.repository.UserDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -10,6 +13,20 @@ import java.util.List;
 @RequestMapping("v1/user")
 public class UserController {
 
+    private UserDao dao;
+
+    @Autowired
+    public void setDao(UserDao dao) {
+        this.dao = dao;
+    }
+
+    private UserMapper mapper;
+
+    @Autowired
+    public void setMapper(UserMapper mapper) {
+        this.mapper = mapper;
+    }
+
     @GetMapping("getAllUsers")
     public List<UserDto> getAllUsers() {
         return new ArrayList<>();
@@ -17,7 +34,7 @@ public class UserController {
 
     @GetMapping("getUser")
     public UserDto getUser(@RequestParam Long userId) {
-        return new UserDto();
+        return mapper.mapToUserDao(dao.getOne(userId));
     }
 
     @PostMapping("createUser")

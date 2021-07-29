@@ -1,8 +1,15 @@
 package com.kodilla.ecommercee.cart.controller;
 
+import com.kodilla.ecommercee.cart.domain.Cart;
 import com.kodilla.ecommercee.cart.domain.CartDto;
+import com.kodilla.ecommercee.cart.mapper.CartMapper;
+import com.kodilla.ecommercee.cart.repository.CartDao;
+import com.kodilla.ecommercee.cart.service.CartService;
+import com.kodilla.ecommercee.group.domain.Group;
+import com.kodilla.ecommercee.group.repository.GroupDao;
 import com.kodilla.ecommercee.product.domain.ProductDto;
 import com.kodilla.ecommercee.order.domain.OrderDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -12,12 +19,23 @@ import java.util.List;
 @RestController
 public class CartController {
 
+    private CartService cartService;
+
+    @Autowired
+    public void setCartService(CartService cartService) {
+        this.cartService = cartService;
+    }
+
+    private CartMapper cartMapper;
+
+    @Autowired
+    public void setCartMapper(CartMapper cartMapper) {
+        this.cartMapper = cartMapper;
+    }
+
     @GetMapping(path = "products")
     public List<ProductDto> getProducts(@RequestParam Long cartId) {
-        ProductDto product1 = new ProductDto(1L, "kurtka zimowa", "Pellentesque tempus interdum quam ut rhoncus. Donec ullamcorper turpis dolor. Donec euismod pretium eros et eleifend. Aliquam vulputate faucibus lorem non auctor. Vivamus erat turpis, molestie a nisl non, scelerisque luctus enim. Nunc mi mi, laoreet ac mollis nec, pharetra sit amet tortor. Vivamus a bibendum purus.", 100, 1L);
-        ProductDto product2 = new ProductDto(2L, "płaszcz", "Pellentesque tempus interdum quam ut rhoncus. Donec ullamcorper turpis dolor. Donec euismod pretium eros et eleifend. Aliquam vulputate faucibus lorem non auctor. Vivamus erat turpis, molestie a nisl non, scelerisque luctus enim. Nunc mi mi, laoreet ac mollis nec, pharetra sit amet tortor. Vivamus a bibendum purus.", 150, 1L);
-        ProductDto product3 = new ProductDto(8L, "krawat", "Pellentesque tempus interdum quam ut rhoncus. Donec ullamcorper turpis dolor. Donec euismod pretium eros et eleifend. Aliquam vulputate faucibus lorem non auctor. Vivamus erat turpis, molestie a nisl non, scelerisque luctus enim. Nunc mi mi, laoreet ac mollis nec, pharetra sit amet tortor. Vivamus a bibendum purus.", 50, 2L);
-        return Arrays.asList(product1, product2, product3);
+        return null;
     }
 
     @PostMapping(path = "createCart")
@@ -37,4 +55,8 @@ public class CartController {
         return null;
     }
 
+    @GetMapping(path = "getCart")
+    public CartDto getCart(@RequestParam Long cartId) {
+        return cartMapper.mapToCartDto(cartService.getCart(cartId));
+    }
 }

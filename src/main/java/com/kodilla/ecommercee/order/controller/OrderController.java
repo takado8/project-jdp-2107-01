@@ -3,19 +3,29 @@ package com.kodilla.ecommercee.order.controller;
 import com.kodilla.ecommercee.order.domain.OrderDto;
 import com.kodilla.ecommercee.order.mapper.OrderMapper;
 import com.kodilla.ecommercee.order.service.OrderService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @CrossOrigin(origins = "*")
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/orders")
 public class OrderController {
 
-    private final OrderService service;
-    private final OrderMapper mapper;
+    private OrderService service;
+
+    @Autowired
+    public void setService(OrderService service) {
+        this.service = service;
+    }
+
+    private OrderMapper mapper;
+
+    @Autowired
+    public void setMapper(OrderMapper mapper) {
+        this.mapper = mapper;
+    }
 
     @GetMapping("getOrders")
     public List<OrderDto> getAllOrders() {

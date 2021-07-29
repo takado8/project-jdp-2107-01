@@ -8,9 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
 import javax.persistence.*;
-
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +19,12 @@ import java.util.List;
 @Setter
 @Entity
 public class Product {
+
+    public Product(@NotNull String name, String description, @NotNull double price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
 
     @Id
     @GeneratedValue
@@ -36,9 +41,9 @@ public class Product {
 
     @NotNull
     @Column(name = "PRICE")
-    private double price;
+    private Double price;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "GROUP_ID")
     private Group groupId;
 

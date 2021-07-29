@@ -2,16 +2,20 @@ package com.kodilla.ecommercee.order.service;
 
 import com.kodilla.ecommercee.order.domain.Order;
 import com.kodilla.ecommercee.order.repository.OrderDao;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class OrderService {
 
-    private final OrderDao dao;
+    private OrderDao dao;
+
+    @Autowired
+    public void setDao(OrderDao dao) {
+        this.dao = dao;
+    }
 
     public List<Order> getAllOrders() {
         return dao.findAll();

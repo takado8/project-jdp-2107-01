@@ -10,6 +10,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -19,6 +20,12 @@ import java.util.List;
 @Entity
 @Table(name = "ORDERS")
 public class Order {
+
+    public Order(@NotNull double price, @NotNull LocalDate dateOfOrder, User userId) {
+        this.price = price;
+        this.dateOfOrder = dateOfOrder;
+        this.userId = userId;
+    }
 
     @Id
     @GeneratedValue
@@ -38,11 +45,11 @@ public class Order {
     @JoinColumn(name = "USER_ID")
     private User userId;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "ORDERS_PRODUCTS",
             joinColumns = {@JoinColumn(name = "ORDER_ID", referencedColumnName = "ID")},
             inverseJoinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID")}
     )
-    private List<Product> products;
+    private List<Product> products = new ArrayList<>();
 }
