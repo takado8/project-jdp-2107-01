@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.AssertFalse;
 import java.util.List;
 import java.util.Optional;
 
@@ -146,19 +147,31 @@ public class CartTestSuite {
         Cart cart = new Cart("cartName", "cartDescription", 120.50, user);
         cart.getProducts().add(product);
         product.getCarts().add(cart);
+        user.setUsername("Pawel");
         userDao.save(user);
         productDao.save(product);
         cartDao.save(cart);
-        long id = cart.getId();
+        long cartId = cart.getId();
+        long userId = user.getId();
+        long productId = product.getId();
 
         //When
-        Optional<Cart> optionalCart = cartDao.findById(id);
+        Optional<Cart> optionalCart = cartDao.findById(cartId);
         Cart savedCart = optionalCart.orElseThrow(() -> new RuntimeException("No Cart"));
         long savedCartId = savedCart.getId();
         cartDao.deleteById(savedCartId);
 
+        Optional<User> optionalUser = userDao.findById(userId);
+        User savedUser = optionalUser.orElseThrow(() -> new RuntimeException("No User"));
+        Optional<Product> optionalProduct = productDao.findById(productId);
+        Product savedProduct = optionalProduct.orElseThrow(() -> new RuntimeException("No Product"));
+
         //Then
         Assert.assertFalse(cartDao.findById(savedCartId).isPresent());
+        Assert.assertTrue(productDao.findById(productId).isPresent());
+        Assert.assertTrue(userDao.findById(userId).isPresent());
+        Assert.assertEquals("kurtka", savedProduct.getName());
+        Assert.assertEquals("Pawel", savedUser.getUsername());
 
         //Clean up
         userDao.deleteById(user.getId());
