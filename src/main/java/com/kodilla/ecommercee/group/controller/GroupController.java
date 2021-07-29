@@ -1,14 +1,11 @@
 package com.kodilla.ecommercee.group.controller;
 
-import com.kodilla.ecommercee.group.domain.Group;
 import com.kodilla.ecommercee.group.domain.GroupDto;
 import com.kodilla.ecommercee.group.mapper.GroupMapper;
 import com.kodilla.ecommercee.group.service.DbService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.GroupDefinitionException;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
