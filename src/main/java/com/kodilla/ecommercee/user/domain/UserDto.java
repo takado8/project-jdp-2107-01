@@ -1,9 +1,12 @@
 package com.kodilla.ecommercee.user.domain;
 
+import com.kodilla.ecommercee.order.domain.Order;
+import com.kodilla.ecommercee.product.domain.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Random;
 
 @Getter
@@ -12,11 +15,12 @@ import java.util.Random;
 public class UserDto {
     private Long userId;
     private String username;
+    private boolean status;
+    private Long userKey;
     private String email;
     private String password;
-    private String status;
-    private Long userKey;
     private boolean isBlocked;
+    private List<Order> orders;
 
     public void generateUserKey(Long userKey) {
         Random random = new Random();

@@ -23,7 +23,7 @@ public class User {
     @GeneratedValue
     @NotNull
     @Column(name = "ID", unique = true)
-    private Long id;
+    private Long userId;
 
     @NotNull
     @Column(name = "USERNAME", unique = true)
@@ -35,7 +35,7 @@ public class User {
 
     @NotNull
     @Column(name = "USER_KEY")
-    private String user_key;
+    private Long user_key;
 
     @NotNull
     @Column(name = "EMAIL")
@@ -45,12 +45,21 @@ public class User {
     @Column(name = "PASSWORD")
     private String password;
 
+    @NotNull
+    @Column(name = "IS_BLOCKED")
+    private boolean isBlocked;
+
     @OneToMany(
             targetEntity = Order.class,
             mappedBy = "userId",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
+
     private List<Order> orders = new ArrayList<>();
+
+    public List<Order> getOrders() {
+        return orders;
+    }
 
 }
