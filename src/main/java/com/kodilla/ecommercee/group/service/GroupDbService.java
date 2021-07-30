@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class DbService {
+public class GroupDbService {
     private final GroupDao groupDao;
 
     public List<Group> getGroups() {
