@@ -4,6 +4,7 @@ import com.kodilla.ecommercee.order.domain.Order;
 import com.kodilla.ecommercee.order.repository.OrderDao;
 import com.kodilla.ecommercee.user.domain.User;
 import com.kodilla.ecommercee.user.repository.UserDao;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +29,12 @@ public class UserTestSuite {
     @Autowired
     private OrderDao orderDao;
 
-    User user = new User(1L, "john", false, "14113", "test@test.co", "test123", null);
-    Order order = new Order(525, LocalDate.of(2021, 7, 15), user);
-    Order order2 = new Order(122.5, LocalDate.of(2021, 7, 15), user);
-    Order order3 = new Order(10524.5, LocalDate.of(2021, 7, 15), user);
+    private User user;
+
+    @Before
+    public void setUp() {
+        user = new User(1L, "john", false, "14113", "test@test.co", "test123", null);
+    }
 
     List<Order> orders = new ArrayList<>();
 
@@ -101,14 +104,15 @@ public class UserTestSuite {
     public void testRelationUserOrder() {
 
         //Given
+        Order order = new Order(525, LocalDate.of(2021, 7, 15), user);
+        Order order2 = new Order(122.5, LocalDate.of(2021, 7, 15), user);
+        Order order3 = new Order(10524.5, LocalDate.of(2021, 7, 15), user);
+
         orders.add(order);
         orders.add(order2);
         orders.add(order3);
         user.setOrders(orders);
         userDao.save(user);
-        orderDao.save(order);
-        orderDao.save(order2);
-        orderDao.save(order3);
 
         //When
         userDao.findById(user.getId());
