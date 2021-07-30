@@ -32,7 +32,7 @@ public class UserTestSuite {
     private User user;
 
     @Before
-    public void setUp() {
+    public void setup() {
         user = new User(1L, "john", false, "14113", "test@test.co", "test123", null);
     }
 
