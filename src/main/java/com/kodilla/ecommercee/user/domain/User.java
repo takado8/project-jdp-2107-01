@@ -35,7 +35,7 @@ public class User {
 
     @NotNull
     @Column(name = "USER_KEY")
-    private Long user_key;
+    private String userKey;
 
     @NotNull
     @Column(name = "EMAIL")

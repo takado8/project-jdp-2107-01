@@ -62,7 +62,7 @@ public class UserController {
     }
 
     @PatchMapping("/generateUserKey")
-    public UserDto generateUserKey(@RequestParam Long userId) {
-        return new UserDto();
+    public UserDto generateUserKey(@RequestParam Long userId) throws UserNotFoundException {
+        return userMapper.mapToUserDto(userDbService.generateUserKey(userId));
     }
 }

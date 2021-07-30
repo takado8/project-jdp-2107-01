@@ -16,16 +16,16 @@ public class UserDto {
     private Long userId;
     private String username;
     private boolean status;
-    private Long userKey;
+    private String userKey;
     private String email;
     private String password;
     private boolean isBlocked;
     private List<Order> orders;
 
-    public void generateUserKey(Long userKey) {
-        Random random = new Random();
-        this.userKey = random.nextLong();
-    }
+//    public void generateUserKey(Long userKey) {
+//        Random random = new Random();
+//        this.userKey = random.nextLong();
+//    }
 
     public void blockUser(boolean isBlocked) {
         this.isBlocked = !isBlocked;

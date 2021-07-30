@@ -27,7 +27,7 @@ public class UserMapper {
                 user.getUserId(),
                 user.getUsername(),
                 user.isStatus(),
-                user.getUserId(),
+                user.getUserKey(),
                 user.getEmail(),
                 user.getPassword(),
                 user.isBlocked(),
