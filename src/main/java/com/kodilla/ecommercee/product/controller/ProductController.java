@@ -1,6 +1,10 @@
 package com.kodilla.ecommercee.product.controller;
 
+import com.kodilla.ecommercee.product.domain.Product;
 import com.kodilla.ecommercee.product.domain.ProductDto;
+import com.kodilla.ecommercee.product.mapper.ProductMapper;
+import com.kodilla.ecommercee.product.service.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -8,11 +12,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/product")
+@RequiredArgsConstructor
 public class ProductController {
+
+    private final ProductMapper productMapper;
+    private final ProductService productService;
 
     @GetMapping(value = "getProducts")
     public List<ProductDto> getProducts() {
-        return new ArrayList<>();
+        List<Product> productList = productService.getAllProducts();
+        return productMapper.mapToProduct(productList);
     }
 
     @GetMapping(value = "getProduct")
