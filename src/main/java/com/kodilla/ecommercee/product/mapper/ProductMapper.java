@@ -22,6 +22,7 @@ public class ProductMapper {
 
     public Product mapToProduct(final ProductDto productDto) throws OrderNotFoundException {
         return new Product(
+                productDto.getId(),
                 productDto.getName(),
                 productDto.getDescription(),
                 productDto.getPrice(),
