@@ -32,7 +32,13 @@ public class Group {
     @OneToMany(
             targetEntity = Product.class,
             mappedBy = "groupId",
-            fetch = FetchType.LAZY
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
     )
     private List<Product> products = new ArrayList<>();
+
+    public Group(@NotNull String name, List<Product> products) {
+        this.name = name;
+        this.products = products;
+    }
 }
