@@ -39,22 +39,6 @@ public class UserTestSuite {
     }
 
     @Test
-    public void testFindUser() {
-
-        //Given
-        userDao.save(user);
-
-        //When
-        userDao.findById(user.getId());
-
-        //Then
-        assertEquals("john", user.getUsername());
-
-        //Cleanup
-        userDao.delete(user);
-    }
-
-    @Test
     public void testSaveUser() {
 
         //Given
