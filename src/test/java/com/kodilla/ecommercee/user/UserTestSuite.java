@@ -31,12 +31,12 @@ public class UserTestSuite {
 
     private User user;
 
+    List<Order> orders = new ArrayList<>();
+
     @Before
     public void setup() {
-        user = new User(1L, "john", false, "14113", "test@test.co", "test123", null);
+        user = new User(1L, "john", false, "14113", "test@test.co", "test123", orders);
     }
-
-    List<Order> orders = new ArrayList<>();
 
     @Test
     public void testFindUser() {
@@ -75,13 +75,15 @@ public class UserTestSuite {
 
         //Given
         userDao.save(user);
+        String username = user.getUsername();
 
         //When
-        User newUser = userDao.getOne(user.getId());
-        newUser.setUsername("Bartłomiej");
+        user.setUsername("Bartłomiej");
+        userDao.save(user);
 
         //Then
-        assertEquals("Bartłomiej", newUser.getUsername());
+        assertNotEquals(username, user.getUsername());
+        assertEquals("Bartłomiej", user.getUsername());
 
         //Cleanup
         userDao.deleteById(user.getId());
