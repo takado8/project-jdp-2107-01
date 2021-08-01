@@ -4,8 +4,8 @@ import com.kodilla.ecommercee.order.domain.Order;
 import com.kodilla.ecommercee.order.domain.OrderDto;
 import com.kodilla.ecommercee.product.domain.Product;
 import com.kodilla.ecommercee.product.repository.ProductDao;
-import com.kodilla.ecommercee.user.UserMapper;
-import com.kodilla.ecommercee.user.controller.UserController;
+import com.kodilla.ecommercee.user.controller.UserNotFoundException;
+import com.kodilla.ecommercee.user.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,18 +16,11 @@ import java.util.stream.Collectors;
 @Service
 public class OrderMapper {
 
-    private UserController userController;
+    private UserDao userDao;
 
     @Autowired
-    public void setUserController(UserController userController) {
-        this.userController = userController;
-    }
-
-    private UserMapper userMapper;
-
-    @Autowired
-    public void setUserMapper(UserMapper userMapper) {
-        this.userMapper = userMapper;
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     private ProductDao productDao;
@@ -42,7 +35,7 @@ public class OrderMapper {
                 orderDto.getId(),
                 orderDto.getPrice(),
                 orderDto.getDateOfOrder(),
-                userMapper.mapToUser(userController.getUser(orderDto.getUserId())),
+                userDao.findById(orderDto.getUserId()).orElseThrow(UserNotFoundException::new),
                 orderDto.getProductsId().stream()
                         .map(productDao::findById)
                         .filter(Optional::isPresent)
