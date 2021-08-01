@@ -6,7 +6,6 @@ import com.kodilla.ecommercee.product.service.ProductDbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -27,28 +26,40 @@ public class ProductController {
         this.productMapper = productMapper;
     }
 
+
     @GetMapping(value = "getProducts")
     public List<ProductDto> getProducts() {
-        return new ArrayList<>();
+        return productMapper.mapToProductDtoList(
+                productDbService.getAllProducts()
+        );
     }
 
     @GetMapping(value = "getProduct")
-    public ProductDto getProduct(@RequestParam Long id) {
+
+    public ProductDto getProduct(@RequestParam Long productId) {
         return productMapper.mapToProductDto(
-                productDbService.getProduct(id).orElseThrow(ProductNotFoundException::new)
+                productDbService.getProduct(productId)
         );
     }
 
     @PostMapping(value = "createProduct")
     public void createProduct(@RequestBody ProductDto productDto) {
+        productDbService.saveProduct(
+                productMapper.mapToProduct(productDto)
+        );
     }
 
     @PutMapping(value = "updateProduct")
     public ProductDto updateProduct(@RequestBody ProductDto productDto) {
-        return null;
+        return productMapper.mapToProductDto(
+                productDbService.saveProduct(
+                        productMapper.mapToProduct(productDto)
+                )
+        );
     }
 
     @DeleteMapping(value = "deleteProduct")
-    public void deleteTask(@RequestBody Long id) {
+    public void deleteProduct(@RequestParam Long productId) {
+        productDbService.deleteProduct(productId);
     }
 }

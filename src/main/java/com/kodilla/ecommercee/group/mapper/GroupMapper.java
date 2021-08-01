@@ -4,6 +4,7 @@ import com.kodilla.ecommercee.group.domain.Group;
 import com.kodilla.ecommercee.group.domain.GroupDto;
 import com.kodilla.ecommercee.product.domain.Product;
 import com.kodilla.ecommercee.product.repository.ProductDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +13,13 @@ import java.util.stream.Collectors;
 
 @Service
 public class GroupMapper {
-    ProductDao productDao;
+
+    private ProductDao productDao;
+
+    @Autowired
+    public void setProductDao(ProductDao productDao) {
+        this.productDao = productDao;
+    }
 
     public GroupDto mapGroupToDto(Group group) {
         return new GroupDto(group.getId(), group.getName(),
@@ -33,6 +40,8 @@ public class GroupMapper {
     }
 
     public List<GroupDto> mapGroupListToDtoList(List<Group> groups) {
-        return groups.stream().map(this::mapGroupToDto).collect(Collectors.toList());
+        return groups.stream()
+                .map(this::mapGroupToDto)
+                .collect(Collectors.toList());
     }
 }

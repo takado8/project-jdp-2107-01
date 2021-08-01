@@ -49,7 +49,7 @@ public class Cart {
     )
     private List<Product> products = new ArrayList<>();
 
-    public Cart(String name, String description, double price, User userID) {
+    public Cart(String name, String description, Double price, User userID) {
         this.name = name;
         this.description = description;
         this.price = price;

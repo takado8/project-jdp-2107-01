@@ -47,7 +47,6 @@ public class User {
     @OneToMany(
             targetEntity = Order.class,
             mappedBy = "userId",
-            cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
     private List<Order> orders = new ArrayList<>();
