@@ -1,6 +1,6 @@
 package com.kodilla.ecommercee.product.service;
 
-import com.kodilla.ecommercee.exceptions.ProductNotFoundException;
+import com.kodilla.ecommercee.product.controller.ProductNotFoundException;
 import com.kodilla.ecommercee.product.domain.Product;
 import com.kodilla.ecommercee.product.repository.ProductDao;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class ProductService {
         return productDao.save(order);
     }
 
-    public void deleteProduct(Long id){
+    public void deleteProduct(Long id) {
         productDao.deleteById(id);
     }
 

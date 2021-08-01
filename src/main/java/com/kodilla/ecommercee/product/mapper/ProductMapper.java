@@ -1,10 +1,10 @@
 package com.kodilla.ecommercee.product.mapper;
 
-import com.kodilla.ecommercee.exceptions.OrderNotFoundException;
+import com.kodilla.ecommercee.group.repository.GroupRepository;
+import com.kodilla.ecommercee.order.controller.OrderNotFoundException;
 import com.kodilla.ecommercee.group.repository.GroupDao;
 import com.kodilla.ecommercee.product.domain.Product;
 import com.kodilla.ecommercee.product.domain.ProductDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,18 +15,14 @@ public class ProductMapper {
 
     private final GroupDao groupDao;
 
-    @Autowired
-    public ProductMapper(GroupDao groupDao) {
-        this.groupDao = groupDao;
-    }
-
-    public Product mapToProduct(final ProductDto productDto) throws OrderNotFoundException {
+    public Product mapToProduct(final ProductDto productDto) {
         return new Product(
                 productDto.getId(),
                 productDto.getName(),
                 productDto.getDescription(),
                 productDto.getPrice(),
-                groupDao.findById(productDto.getGroupId()).orElseThrow(OrderNotFoundException::new)
+                productDto.getProductGroup(),
+                groupDao.findById(productDto.)
         );
     }
 
@@ -36,7 +32,7 @@ public class ProductMapper {
                 product.getName(),
                 product.getDescription(),
                 product.getPrice(),
-                product.getId()
+                product.getProductGroup()
         );
     }
 
