@@ -27,14 +27,14 @@ public class ProductController {
     }
 
 
-    @GetMapping(value = "getProducts")
+    @GetMapping("getProducts")
     public List<ProductDto> getProducts() {
         return productMapper.mapToProductDtoList(
                 productDbService.getAllProducts()
         );
     }
 
-    @GetMapping(value = "getProduct")
+    @GetMapping("getProduct")
 
     public ProductDto getProduct(@RequestParam Long productId) {
         return productMapper.mapToProductDto(
@@ -42,14 +42,14 @@ public class ProductController {
         );
     }
 
-    @PostMapping(value = "createProduct")
+    @PostMapping("createProduct")
     public void createProduct(@RequestBody ProductDto productDto) {
         productDbService.saveProduct(
                 productMapper.mapToProduct(productDto)
         );
     }
 
-    @PutMapping(value = "updateProduct")
+    @PutMapping("updateProduct")
     public ProductDto updateProduct(@RequestBody ProductDto productDto) {
         return productMapper.mapToProductDto(
                 productDbService.saveProduct(
@@ -58,7 +58,7 @@ public class ProductController {
         );
     }
 
-    @DeleteMapping(value = "deleteProduct")
+    @DeleteMapping("deleteProduct")
     public void deleteProduct(@RequestParam Long productId) {
         productDbService.deleteProduct(productId);
     }
