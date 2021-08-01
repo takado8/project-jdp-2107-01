@@ -1,6 +1,6 @@
 package com.kodilla.ecommercee.cart.controller;
 
-public class CartNotFoundException extends Exception {
+public class CartNotFoundException extends RuntimeException {
 
     private static final String MESSAGE = "Wrong id - does not exist!";
 

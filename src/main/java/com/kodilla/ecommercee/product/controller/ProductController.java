@@ -33,7 +33,7 @@ public class ProductController {
     }
 
     @GetMapping(value = "getProduct")
-    public ProductDto getProduct(@RequestParam Long id) throws ProductNotFoundException {
+    public ProductDto getProduct(@RequestParam Long id) {
         return productMapper.mapToProductDto(
                 productDbService.getProduct(id).orElseThrow(ProductNotFoundException::new)
         );

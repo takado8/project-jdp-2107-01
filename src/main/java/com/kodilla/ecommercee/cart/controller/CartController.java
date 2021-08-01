@@ -51,7 +51,7 @@ public class CartController {
     }
 
     @GetMapping(path = "getCart")
-    public CartDto getCart(@RequestParam Long cartId) throws CartNotFoundException {
+    public CartDto getCart(@RequestParam Long cartId) {
         return cartMapper.mapToCartDto(
                 cartDbService.getCart(cartId).orElseThrow(CartNotFoundException::new)
         );
