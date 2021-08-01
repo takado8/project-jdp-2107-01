@@ -1,7 +1,7 @@
 package com.kodilla.ecommercee.user;
 
 import com.kodilla.ecommercee.order.domain.Order;
-import com.kodilla.ecommercee.order.service.OrderService;
+import com.kodilla.ecommercee.order.service.OrderDbService;
 import com.kodilla.ecommercee.user.domain.User;
 import com.kodilla.ecommercee.user.domain.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 @Service
 public class UserMapper {
 
-    private OrderService service;
+    private OrderDbService service;
 
     @Autowired
-    public void setService(OrderService service) {
+    public void setService(OrderDbService service) {
         this.service = service;
     }
 

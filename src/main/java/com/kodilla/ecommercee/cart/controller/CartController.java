@@ -1,29 +1,24 @@
 package com.kodilla.ecommercee.cart.controller;
 
-import com.kodilla.ecommercee.cart.domain.Cart;
 import com.kodilla.ecommercee.cart.domain.CartDto;
 import com.kodilla.ecommercee.cart.mapper.CartMapper;
-import com.kodilla.ecommercee.cart.repository.CartDao;
-import com.kodilla.ecommercee.cart.service.CartService;
-import com.kodilla.ecommercee.group.domain.Group;
-import com.kodilla.ecommercee.group.repository.GroupDao;
+import com.kodilla.ecommercee.cart.service.CartDbService;
 import com.kodilla.ecommercee.product.domain.ProductDto;
 import com.kodilla.ecommercee.order.domain.OrderDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RequestMapping("v1/cart")
 @RestController
 public class CartController {
 
-    private CartService cartService;
+    private CartDbService cartDbService;
 
     @Autowired
-    public void setCartService(CartService cartService) {
-        this.cartService = cartService;
+    public void setCartService(CartDbService cartDbService) {
+        this.cartDbService = cartDbService;
     }
 
     private CartMapper cartMapper;
@@ -57,6 +52,6 @@ public class CartController {
 
     @GetMapping(path = "getCart")
     public CartDto getCart(@RequestParam Long cartId) {
-        return cartMapper.mapToCartDto(cartService.getCart(cartId));
+        return cartMapper.mapToCartDto(cartDbService.getCart(cartId));
     }
 }

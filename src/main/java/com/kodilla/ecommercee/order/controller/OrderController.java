@@ -2,7 +2,7 @@ package com.kodilla.ecommercee.order.controller;
 
 import com.kodilla.ecommercee.order.domain.OrderDto;
 import com.kodilla.ecommercee.order.mapper.OrderMapper;
-import com.kodilla.ecommercee.order.service.OrderService;
+import com.kodilla.ecommercee.order.service.OrderDbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +13,10 @@ import java.util.List;
 @RequestMapping("/v1/orders")
 public class OrderController {
 
-    private OrderService service;
+    private OrderDbService service;
 
     @Autowired
-    public void setService(OrderService service) {
+    public void setService(OrderDbService service) {
         this.service = service;
     }
 

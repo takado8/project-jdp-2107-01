@@ -2,7 +2,7 @@ package com.kodilla.ecommercee.product.controller;
 
 import com.kodilla.ecommercee.product.domain.ProductDto;
 import com.kodilla.ecommercee.product.mapper.ProductMapper;
-import com.kodilla.ecommercee.product.service.ProductService;
+import com.kodilla.ecommercee.product.service.ProductDbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,11 +13,11 @@ import java.util.List;
 @RequestMapping("/v1/product")
 public class ProductController {
 
-    private ProductService productService;
+    private ProductDbService productDbService;
 
     @Autowired
-    public void setProductService(ProductService productService) {
-        this.productService = productService;
+    public void setProductService(ProductDbService productDbService) {
+        this.productDbService = productDbService;
     }
 
     private ProductMapper productMapper;
@@ -34,7 +34,7 @@ public class ProductController {
 
     @GetMapping(value = "getProduct")
     public ProductDto getProduct(@RequestParam Long id) {
-        return productMapper.mapToProductDto(productService.getProduct(id));
+        return productMapper.mapToProductDto(productDbService.getProduct(id));
     }
 
     @PostMapping(value = "createProduct")
