@@ -40,7 +40,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "GROUP_ID")
-    private Group groupId;
+    private Group productGroup;
 
     @ManyToMany(mappedBy = "products")
     private List<Order> orders = new ArrayList<>();
