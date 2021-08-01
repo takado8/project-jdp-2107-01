@@ -1,11 +1,10 @@
 package com.kodilla.ecommercee.product.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+public class ProductNotFoundException extends RuntimeException {
 
-@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Could not find product in the database")
-public class ProductNotFoundException extends Exception{
+    private final static String MESSAGE = "Wrong id - does not exist!";
+
     public ProductNotFoundException() {
-        super("Could not find product in the database");
+        super(MESSAGE);
     }
 }

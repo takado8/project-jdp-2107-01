@@ -3,27 +3,31 @@ package com.kodilla.ecommercee.product.service;
 import com.kodilla.ecommercee.product.controller.ProductNotFoundException;
 import com.kodilla.ecommercee.product.domain.Product;
 import com.kodilla.ecommercee.product.repository.ProductDao;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
-public class ProductService {
+public class ProductDbService {
 
-    private final ProductDao productDao;
+    private ProductDao productDao;
+
+    @Autowired
+    public void setProductDao(ProductDao productDao) {
+        this.productDao = productDao;
+    }
 
     public List<Product> getAllProducts() {
         return productDao.findAll();
     }
 
-    public Product getProduct(Long id) throws ProductNotFoundException {
+    public Product getProduct(final Long id) {
         return productDao.findById(id).orElseThrow(ProductNotFoundException::new);
     }
 
-    public Product saveProduct(final Product order) {
-        return productDao.save(order);
+    public Product saveProduct(final Product product) {
+        return productDao.save(product);
     }
 
     public void deleteProduct(Long id) {

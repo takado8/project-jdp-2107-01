@@ -1,12 +1,9 @@
 package com.kodilla.ecommercee.product.controller;
 
-import com.kodilla.ecommercee.order.controller.OrderNotFoundException;
-import com.kodilla.ecommercee.product.domain.Product;
 import com.kodilla.ecommercee.product.domain.ProductDto;
 import com.kodilla.ecommercee.product.mapper.ProductMapper;
-import com.kodilla.ecommercee.product.service.ProductService;
+import com.kodilla.ecommercee.product.service.ProductDbService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,36 +14,40 @@ import java.util.List;
 public class ProductController {
 
     private final ProductMapper productMapper;
-    private final ProductService productService;
+    private final ProductDbService productDbService;
 
     @GetMapping(value = "getProducts")
     public List<ProductDto> getProducts() {
-        List<Product> productList = productService.getAllProducts();
-        return productMapper.mapToProductDtoList(productList);
-    }
-
-    @GetMapping(value = "/getProduct/{productId}")
-    public ProductDto getProduct(@RequestBody Long productId) throws ProductNotFoundException {
-        return productMapper.mapToProductDto(
-                productService.getProduct(productId)
+        return productMapper.mapToProductDtoList(
+                productDbService.getAllProducts()
         );
     }
 
-    @PostMapping(value = "/createProduct", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void createProduct(@RequestBody ProductDto productDto) throws OrderNotFoundException {
-        Product product = productMapper.mapToProduct(productDto);
-        productService.saveProduct(product);
+    @GetMapping(value = "getProduct")
+    public ProductDto getProduct(@RequestParam Long productId) {
+        return productMapper.mapToProductDto(
+                productDbService.getProduct(productId)
+        );
     }
 
-    @PutMapping(value = "/updateProduct")
-    public ProductDto updateProduct(@RequestBody ProductDto productDto) throws OrderNotFoundException {
-        Product product = productMapper.mapToProduct(productDto);
-        Product saveProduct = productService.saveProduct(product);
-        return productMapper.mapToProductDto(saveProduct);
+    @PostMapping(value = "createProduct")
+    public void createProduct(@RequestBody ProductDto productDto) {
+        productDbService.saveProduct(
+                productMapper.mapToProduct(productDto)
+        );
     }
 
-    @DeleteMapping(value = "/deleteProduct/{productId}")
+    @PutMapping(value = "updateProduct")
+    public ProductDto updateProduct(@RequestBody ProductDto productDto) {
+        return productMapper.mapToProductDto(
+                productDbService.saveProduct(
+                        productMapper.mapToProduct(productDto)
+                )
+        );
+    }
+
+    @DeleteMapping(value = "deleteProduct")
     public void deleteProduct(@RequestParam Long productId) {
-        productService.deleteProduct(productId);
+        productDbService.deleteProduct(productId);
     }
 }
