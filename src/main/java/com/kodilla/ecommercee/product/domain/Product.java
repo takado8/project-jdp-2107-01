@@ -43,7 +43,7 @@ public class Product {
     @Column(name = "PRICE")
     private Double price;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "GROUP_ID")
     private Group groupId;
 

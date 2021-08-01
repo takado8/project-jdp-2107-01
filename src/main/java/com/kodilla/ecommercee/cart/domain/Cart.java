@@ -41,7 +41,7 @@ public class Cart {
     @JoinColumn(name = "USER_ID")
     private User userID;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(
             name = "CARTS_PRODUCTS",
             joinColumns = {@JoinColumn(name = "CART_ID", referencedColumnName = "ID")},
