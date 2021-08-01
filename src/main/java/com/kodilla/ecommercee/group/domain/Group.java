@@ -8,11 +8,10 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -26,7 +25,7 @@ public class Group {
     private Long id;
 
     @NotNull
-    @Column(name = "NAME")
+    @Column(name = "NAME", unique = true)
     private String name;
 
     @OneToMany(
@@ -34,5 +33,5 @@ public class Group {
             mappedBy = "groupId",
             fetch = FetchType.LAZY
     )
-    private List<Product> products = new ArrayList<>();
+    private List<Product> products;
 }
