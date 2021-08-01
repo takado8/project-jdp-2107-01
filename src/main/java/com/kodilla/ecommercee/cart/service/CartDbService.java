@@ -5,6 +5,8 @@ import com.kodilla.ecommercee.cart.repository.CartDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class CartDbService {
 
@@ -15,7 +17,7 @@ public class CartDbService {
         this.cartDao = cartDao;
     }
 
-    public Cart getCart(Long cartId) {
-        return cartDao.getOne(cartId);
+    public Optional<Cart> getCart(Long cartId) {
+        return cartDao.findById(cartId);
     }
 }

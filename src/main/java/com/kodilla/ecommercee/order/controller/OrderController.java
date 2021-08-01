@@ -3,12 +3,12 @@ package com.kodilla.ecommercee.order.controller;
 import com.kodilla.ecommercee.order.domain.OrderDto;
 import com.kodilla.ecommercee.order.mapper.OrderMapper;
 import com.kodilla.ecommercee.order.service.OrderDbService;
+import com.kodilla.ecommercee.user.controller.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/v1/orders")
 public class OrderController {
@@ -33,17 +33,17 @@ public class OrderController {
     }
 
     @PostMapping("createOrder")
-    public void createOrder(@RequestBody OrderDto orderDto) {
+    public void createOrder(@RequestBody OrderDto orderDto) throws UserNotFoundException {
         service.saveOrder(mapper.mapToOrder(orderDto));
     }
 
     @GetMapping("getOrder")
-    public OrderDto getOrder(@RequestParam Long orderId) {
-        return mapper.mapToOrderDto(service.getOrder(orderId));
+    public OrderDto getOrder(@RequestParam Long orderId) throws OrderNotFoundException {
+        return mapper.mapToOrderDto(service.getOrder(orderId).orElseThrow(OrderNotFoundException::new));
     }
 
     @PutMapping("updateOrder")
-    public OrderDto updateOrder(@RequestBody OrderDto orderDto) {
+    public OrderDto updateOrder(@RequestBody OrderDto orderDto) throws UserNotFoundException {
         return mapper.mapToOrderDto(service.saveOrder(mapper.mapToOrder(orderDto)));
     }
 

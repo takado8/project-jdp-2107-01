@@ -6,6 +6,7 @@ import com.kodilla.ecommercee.product.domain.Product;
 import com.kodilla.ecommercee.product.repository.ProductDao;
 import com.kodilla.ecommercee.user.UserMapper;
 import com.kodilla.ecommercee.user.controller.UserController;
+import com.kodilla.ecommercee.user.controller.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,14 +37,14 @@ public class OrderMapper {
         this.productDao = productDao;
     }
 
-    public Order mapToOrder(final OrderDto orderDto) {
+    public Order mapToOrder(final OrderDto orderDto) throws UserNotFoundException {
         return new Order(
                 orderDto.getId(),
                 orderDto.getPrice(),
                 orderDto.getDateOfOrder(),
                 userMapper.mapToUser(userController.getUser(orderDto.getUserId())),
                 orderDto.getProductsId().stream()
-                        .map(productDao::getOne)
+                        .map(orderId -> productDao.findById(orderId).get())
                         .collect(Collectors.toList())
         );
     }

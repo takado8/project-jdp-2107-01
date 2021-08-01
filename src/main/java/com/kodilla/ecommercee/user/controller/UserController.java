@@ -33,8 +33,10 @@ public class UserController {
     }
 
     @GetMapping("getUser")
-    public UserDto getUser(@RequestParam Long userId) {
-        return mapper.mapToUserDao(dao.getOne(userId));
+    public UserDto getUser(@RequestParam Long userId) throws UserNotFoundException {
+        return mapper.mapToUserDao(
+                dao.findById(userId).orElseThrow(UserNotFoundException::new)
+        );
     }
 
     @PostMapping("createUser")

@@ -3,8 +3,8 @@ package com.kodilla.ecommercee.cart.controller;
 import com.kodilla.ecommercee.cart.domain.CartDto;
 import com.kodilla.ecommercee.cart.mapper.CartMapper;
 import com.kodilla.ecommercee.cart.service.CartDbService;
-import com.kodilla.ecommercee.product.domain.ProductDto;
 import com.kodilla.ecommercee.order.domain.OrderDto;
+import com.kodilla.ecommercee.product.domain.ProductDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,7 +51,9 @@ public class CartController {
     }
 
     @GetMapping(path = "getCart")
-    public CartDto getCart(@RequestParam Long cartId) {
-        return cartMapper.mapToCartDto(cartDbService.getCart(cartId));
+    public CartDto getCart(@RequestParam Long cartId) throws CartNotFoundException {
+        return cartMapper.mapToCartDto(
+                cartDbService.getCart(cartId).orElseThrow(CartNotFoundException::new)
+        );
     }
 }

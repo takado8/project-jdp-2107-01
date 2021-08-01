@@ -5,6 +5,8 @@ import com.kodilla.ecommercee.product.repository.ProductDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ProductDbService {
 
@@ -15,7 +17,7 @@ public class ProductDbService {
         this.productDao = productDao;
     }
 
-    public Product getProduct(Long productId) {
-        return productDao.getOne(productId);
+    public Optional<Product> getProduct(Long productId) {
+        return productDao.findById(productId);
     }
 }

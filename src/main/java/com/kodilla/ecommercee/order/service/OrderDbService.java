@@ -6,30 +6,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderDbService {
 
-    private OrderDao dao;
+    private OrderDao orderDao;
 
     @Autowired
-    public void setDao(OrderDao dao) {
-        this.dao = dao;
+    public void setDao(OrderDao orderDao) {
+        this.orderDao = orderDao;
     }
 
     public List<Order> getAllOrders() {
-        return dao.findAll();
+        return orderDao.findAll();
     }
 
     public Order saveOrder(final Order order) {
-        return dao.save(order);
+        return orderDao.save(order);
     }
 
-    public Order getOrder(final Long orderId) {
-        return dao.getOne(orderId);
+    public Optional<Order> getOrder(final Long orderId) {
+        return orderDao.findById(orderId);
     }
 
     public void deleteOrder(final Long orderId) {
-        dao.deleteById(orderId);
+        orderDao.deleteById(orderId);
     }
 }
