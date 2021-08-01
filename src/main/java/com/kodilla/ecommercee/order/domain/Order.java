@@ -21,7 +21,7 @@ import java.util.List;
 @Table(name = "ORDERS")
 public class Order {
 
-    public Order(@NotNull double price, @NotNull LocalDate dateOfOrder, User userId){
+    public Order(@NotNull double price, @NotNull LocalDate dateOfOrder, User userId) {
         this.price = price;
         this.dateOfOrder = dateOfOrder;
         this.userId = userId;

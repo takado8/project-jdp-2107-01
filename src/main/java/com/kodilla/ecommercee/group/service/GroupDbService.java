@@ -2,7 +2,6 @@ package com.kodilla.ecommercee.group.service;
 
 import com.kodilla.ecommercee.group.domain.Group;
 import com.kodilla.ecommercee.group.repository.GroupDao;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

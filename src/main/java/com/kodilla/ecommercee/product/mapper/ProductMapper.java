@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 import java.util.stream.Collectors;
 
 @Service
 public class ProductMapper {
-
     private GroupDao groupDao;
 
     @Autowired
@@ -46,9 +46,7 @@ public class ProductMapper {
                 productDto.getDescription(),
                 productDto.getPrice(),
                 groupDao.findById(productDto.getId())
-                        .orElseThrow(
-                                () -> new GroupNotFoundException("Group of id: '" + productDto.getId() + "' does not exist")
-                        ),
+                        .orElseThrow(GroupNotFoundException::new),
                 productDto.getOrdersId().stream()
                         .map(orderDao::findById)
                         .filter(Optional::isPresent)
@@ -84,3 +82,4 @@ public class ProductMapper {
                 .collect(Collectors.toList());
     }
 }
+

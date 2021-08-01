@@ -23,7 +23,7 @@ public class GroupController {
     @GetMapping(path = "getGroup")
     public GroupDto getGroup(@RequestParam Long groupId) {
         return mapper.mapGroupToDto(groupDbService.getGroup(groupId).
-                orElseThrow(() -> new GroupNotFoundException("Group of id: '" + groupId + "' does not exist")));
+                orElseThrow(GroupNotFoundException::new));
     }
 
     @PostMapping(path = "createGroup")

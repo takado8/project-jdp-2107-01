@@ -1,42 +1,53 @@
 package com.kodilla.ecommercee.order.controller;
 
 import com.kodilla.ecommercee.order.domain.OrderDto;
-import lombok.NoArgsConstructor;
+import com.kodilla.ecommercee.order.mapper.OrderMapper;
+import com.kodilla.ecommercee.order.service.OrderDbService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
 @RequestMapping("/v1/orders")
-@CrossOrigin(origins = "*")
-@NoArgsConstructor
 public class OrderController {
 
-    @GetMapping("getOrders")
-    public List<OrderDto> getOrders() {
-        return Arrays.asList(
-                new OrderDto(1L, 1L, 50),
-                new OrderDto(2L, 2L, 80));
+    private OrderDbService service;
+
+    @Autowired
+    public void setService(OrderDbService service) {
+        this.service = service;
     }
 
-    @GetMapping("getOrder")
-    public OrderDto getOrder(@RequestParam Long orderId) {
-        return new OrderDto(1L, 1L, 50);
+    private OrderMapper mapper;
+
+    @Autowired
+    public void setMapper(OrderMapper mapper) {
+        this.mapper = mapper;
+    }
+
+    @GetMapping("getOrders")
+    public List<OrderDto> getAllOrders() {
+        return mapper.mapToOrderDtoList(service.getAllOrders());
     }
 
     @PostMapping("createOrder")
     public void createOrder(@RequestBody OrderDto orderDto) {
-        System.out.println("order " + orderDto + " created");
+        service.saveOrder(mapper.mapToOrder(orderDto));
+    }
+
+    @GetMapping("getOrder")
+    public OrderDto getOrder(@RequestParam Long orderId) {
+        return mapper.mapToOrderDto(service.getOrder(orderId).orElseThrow(OrderNotFoundException::new));
     }
 
     @PutMapping("updateOrder")
     public OrderDto updateOrder(@RequestBody OrderDto orderDto) {
-        return new OrderDto(1L, 1L, 50);
+        return mapper.mapToOrderDto(service.saveOrder(mapper.mapToOrder(orderDto)));
     }
 
     @DeleteMapping("deleteOrder")
     public void deleteOrder(@RequestParam Long orderId) {
-        System.out.println("order " + orderId + " deleted");
+        service.deleteOrder(orderId);
     }
 }

@@ -3,18 +3,29 @@ package com.kodilla.ecommercee.product.controller;
 import com.kodilla.ecommercee.product.domain.ProductDto;
 import com.kodilla.ecommercee.product.mapper.ProductMapper;
 import com.kodilla.ecommercee.product.service.ProductDbService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/v1/product")
-@RequiredArgsConstructor
 public class ProductController {
 
-    private final ProductMapper productMapper;
-    private final ProductDbService productDbService;
+    private ProductDbService productDbService;
+
+    @Autowired
+    public void setProductService(ProductDbService productDbService) {
+        this.productDbService = productDbService;
+    }
+
+    private ProductMapper productMapper;
+
+    @Autowired
+    public void setProductMapper(ProductMapper productMapper) {
+        this.productMapper = productMapper;
+    }
+
 
     @GetMapping(value = "getProducts")
     public List<ProductDto> getProducts() {
@@ -24,6 +35,7 @@ public class ProductController {
     }
 
     @GetMapping(value = "getProduct")
+
     public ProductDto getProduct(@RequestParam Long productId) {
         return productMapper.mapToProductDto(
                 productDbService.getProduct(productId)

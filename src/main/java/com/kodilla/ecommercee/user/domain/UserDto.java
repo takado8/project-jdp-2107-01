@@ -4,26 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Random;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
-    private Long userId;
+    private Long id;
     private String username;
+    private boolean status;
+    private String user_key;
     private String email;
     private String password;
-    private String status;
-    private Long userKey;
-    private boolean isBlocked;
-
-    public void generateUserKey(Long userKey) {
-        Random random = new Random();
-        this.userKey = random.nextLong();
-    }
-
-    public void blockUser(boolean isBlocked) {
-        this.isBlocked = !isBlocked;
-    }
+    private List<Long> ordersId;
 }

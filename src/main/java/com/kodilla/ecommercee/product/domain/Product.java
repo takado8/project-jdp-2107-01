@@ -20,6 +20,12 @@ import java.util.List;
 @Entity
 public class Product {
 
+    public Product(@NotNull String name, String description, @NotNull double price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
+
     @Id
     @GeneratedValue
     @NotNull
@@ -35,7 +41,7 @@ public class Product {
 
     @NotNull
     @Column(name = "PRICE")
-    private double price;
+    private Double price;
 
     @ManyToOne
     @JoinColumn(name = "GROUP_ID")
@@ -46,9 +52,4 @@ public class Product {
 
     @ManyToMany(mappedBy = "products")
     private List<Cart> carts = new ArrayList<>();
-
-    public Product(@NotNull String name, @NotNull double price) {
-        this.name = name;
-        this.price = price;
-    }
 }

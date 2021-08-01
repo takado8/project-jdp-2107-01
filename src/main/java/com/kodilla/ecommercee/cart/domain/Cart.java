@@ -35,7 +35,7 @@ public class Cart {
 
     @NotNull
     @Column(name = "PRICE")
-    private double price;
+    private Double price;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")
@@ -48,4 +48,11 @@ public class Cart {
             inverseJoinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID")}
     )
     private List<Product> products = new ArrayList<>();
+
+    public Cart(String name, String description, Double price, User userID) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.userID = userID;
+    }
 }

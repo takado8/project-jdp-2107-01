@@ -1,6 +1,5 @@
 package com.kodilla.ecommercee.user.domain;
 
-import com.kodilla.ecommercee.cart.domain.Cart;
 import com.kodilla.ecommercee.order.domain.Order;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -48,9 +47,7 @@ public class User {
     @OneToMany(
             targetEntity = Order.class,
             mappedBy = "userId",
-            cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
     private List<Order> orders = new ArrayList<>();
-
 }

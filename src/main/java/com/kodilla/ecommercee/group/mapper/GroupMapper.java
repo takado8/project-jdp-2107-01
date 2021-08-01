@@ -33,6 +33,8 @@ public class GroupMapper {
     }
 
     public List<GroupDto> mapGroupListToDtoList(List<Group> groups) {
-        return groups.stream().map(this::mapGroupToDto).collect(Collectors.toList());
+        return groups.stream()
+                .map(this::mapGroupToDto)
+                .collect(Collectors.toList());
     }
 }
