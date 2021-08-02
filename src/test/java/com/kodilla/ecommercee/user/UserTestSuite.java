@@ -114,7 +114,7 @@ public class UserTestSuite {
     }
 
     @Test
-    public void testDeleteUserDeletesOrders() {
+    public void testDeleteUserDoesNotDeleteOrders() {
 
         //Given
         Order order = new Order(525, LocalDate.of(2021, 7, 15), user);
@@ -131,7 +131,7 @@ public class UserTestSuite {
         userDao.delete(user);
 
         //then
-        // assertEquals(user.getOrders().size(), 0); <-- doesn't work, dunno why (?)
+         assertEquals(user.getOrders().size(), 3);
 
         //Cleanup
         userDao.delete(user);
