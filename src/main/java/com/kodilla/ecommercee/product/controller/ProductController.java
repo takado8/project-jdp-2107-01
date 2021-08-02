@@ -30,6 +30,6 @@ public class ProductController {
     }
 
     @DeleteMapping(value = "deleteProduct")
-    public void deleteTask(@RequestBody Long id) {
+    public void deleteTask(@RequestParam Long id) {
     }
 }
