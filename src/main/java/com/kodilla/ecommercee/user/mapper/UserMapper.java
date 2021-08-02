@@ -3,7 +3,6 @@ package com.kodilla.ecommercee.user.mapper;
 import com.kodilla.ecommercee.user.domain.User;
 import com.kodilla.ecommercee.user.domain.UserDto;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
