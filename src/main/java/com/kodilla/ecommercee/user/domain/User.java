@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -49,17 +50,16 @@ public class User {
     @Column(name = "IS_BLOCKED")
     private boolean isBlocked;
 
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "CART_ID")
+    private Cart cart;
+
     @OneToMany(
             targetEntity = Order.class,
             mappedBy = "userId",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-
-    private List<Order> orders = new ArrayList<>();
-
-    public List<Order> getOrders() {
-        return orders;
-    }
+    private List<Order> ordersId;
 
 }
