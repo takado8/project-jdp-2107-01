@@ -1,10 +1,8 @@
 package com.kodilla.ecommercee.group.service;
 
 import com.kodilla.ecommercee.group.domain.Group;
-import com.kodilla.ecommercee.group.domain.GroupDto;
 import com.kodilla.ecommercee.group.repository.GroupDao;
 import lombok.RequiredArgsConstructor;
-import lombok.var;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
