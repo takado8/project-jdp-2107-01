@@ -40,72 +40,56 @@ public class UserTestSuite {
 
     @Test
     public void testSaveUser() {
-
         //Given
         userDao.save(user);
-
         //When
         List<User> users = userDao.findAll();
-
         //Then
         assertEquals(1, users.size());
-
         //Cleanup
         userDao.delete(user);
     }
 
     @Test
     public void testUpdateUser() {
-
         //Given
         userDao.save(user);
         String username = user.getUsername();
-
         //When
         user.setUsername("Bartłomiej");
         userDao.save(user);
-
         //Then
         assertNotEquals(username, user.getUsername());
         assertEquals("Bartłomiej", user.getUsername());
-
         //Cleanup
         userDao.delete(user);
     }
 
     @Test
     public void testDeleteUser() {
-
         //Given
         userDao.save(user);
-
         //When
         userDao.delete(user);
-
         //Then
         assertFalse(userDao.existsById(user.getId()));
     }
 
     @Test
     public void testRelationUserOrder() {
-
         //Given
         Order order = new Order(525, LocalDate.of(2021, 7, 15), user);
         Order order2 = new Order(122.5, LocalDate.of(2021, 7, 15), user);
         Order order3 = new Order(10524.5, LocalDate.of(2021, 7, 15), user);
-
         orders.add(order);
         orders.add(order2);
         orders.add(order3);
         user.setOrders(orders);
         userDao.save(user);
-
         //When
         userDao.delete(user);
-
         //then
         assertEquals(user.getOrders().size(), 3);
-
         //Cleanup
         userDao.delete(user);
         orderDao.delete(order);
@@ -115,24 +99,19 @@ public class UserTestSuite {
 
     @Test
     public void testDeleteUserDoesNotDeleteOrders() {
-
         //Given
         Order order = new Order(525, LocalDate.of(2021, 7, 15), user);
         Order order2 = new Order(122.5, LocalDate.of(2021, 7, 15), user);
         Order order3 = new Order(10524.5, LocalDate.of(2021, 7, 15), user);
-
         orders.add(order);
         orders.add(order2);
         orders.add(order3);
         user.setOrders(orders);
         userDao.save(user);
-
         //When
         userDao.delete(user);
-
         //then
-         assertEquals(user.getOrders().size(), 3);
-
+        assertEquals(user.getOrders().size(), 3);
         //Cleanup
         userDao.delete(user);
         orderDao.delete(order);
