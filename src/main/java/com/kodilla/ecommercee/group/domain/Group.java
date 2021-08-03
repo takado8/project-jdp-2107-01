@@ -2,19 +2,15 @@ package com.kodilla.ecommercee.group.domain;
 
 import com.kodilla.ecommercee.product.domain.Product;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 
+
+@Data
 @AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
 @Entity
 @Table(name = "PRODUCT_GROUPS")
 public class Group {
@@ -26,7 +22,7 @@ public class Group {
     private Long id;
 
     @NotNull
-    @Column(name = "NAME")
+    @Column(name = "NAME", unique = true)
     private String name;
 
     @OneToMany(
@@ -34,5 +30,5 @@ public class Group {
             mappedBy = "groupId",
             fetch = FetchType.LAZY
     )
-    private List<Product> products = new ArrayList<>();
+    private List<Product> products;
 }
