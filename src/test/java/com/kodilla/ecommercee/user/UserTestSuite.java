@@ -85,10 +85,13 @@ public class UserTestSuite {
         orders.add(order2);
         orders.add(order3);
         user.setOrders(orders);
+        orderDao.save(order);
+        orderDao.save(order2);
+        orderDao.save(order3);
         userDao.save(user);
         //When
         userDao.delete(user);
-        //then
+        //Then
         assertEquals(user.getOrders().size(), 3);
         //Cleanup
         userDao.delete(user);
@@ -107,11 +110,14 @@ public class UserTestSuite {
         orders.add(order2);
         orders.add(order3);
         user.setOrders(orders);
+        orderDao.save(order);
+        orderDao.save(order2);
+        orderDao.save(order3);
         userDao.save(user);
         //When
         userDao.delete(user);
-        //then
-        assertEquals(user.getOrders().size(), 3);
+        //Then
+        assertTrue(orderDao.findById(order.getId()).isPresent());
         //Cleanup
         userDao.delete(user);
         orderDao.delete(order);
