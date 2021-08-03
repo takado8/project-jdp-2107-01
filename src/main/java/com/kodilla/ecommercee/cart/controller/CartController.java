@@ -2,7 +2,6 @@ package com.kodilla.ecommercee.cart.controller;
 
 import com.kodilla.ecommercee.cart.domain.Cart;
 import com.kodilla.ecommercee.cart.domain.CartDto;
-import com.kodilla.ecommercee.cart.domain.CartNotFoundException;
 import com.kodilla.ecommercee.cart.mapper.CartMapper;
 import com.kodilla.ecommercee.cart.service.CartDbService;
 import com.kodilla.ecommercee.order.domain.Order;

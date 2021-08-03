@@ -1,7 +1,6 @@
 package com.kodilla.ecommercee.cart.service;
 
 import com.kodilla.ecommercee.cart.domain.Cart;
-import com.kodilla.ecommercee.cart.domain.CartNotFoundException;
 import com.kodilla.ecommercee.cart.repository.CartDao;
 import com.kodilla.ecommercee.order.domain.Order;
 import com.kodilla.ecommercee.order.repository.OrderDao;
