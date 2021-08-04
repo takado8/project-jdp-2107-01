@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.List;
 @Table(name = "ORDERS")
 public class Order {
 
-    public Order(@NotNull double price, @NotNull LocalDate dateOfOrder, User userId){
+    public Order(@NotNull BigDecimal price, @NotNull LocalDate dateOfOrder, User userId){
         this.price = price;
         this.dateOfOrder = dateOfOrder;
         this.userId = userId;
@@ -35,7 +36,7 @@ public class Order {
 
     @NotNull
     @Column(name = "PRICE")
-    private double price;
+    private BigDecimal price;
 
     @NotNull
     @Column(name = "DATE")

@@ -12,6 +12,7 @@ import com.kodilla.ecommercee.product.mapper.ProductMapper;
 import lombok.Data;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -55,9 +56,9 @@ public class CartController {
     @PostMapping(path = "createOrder")
     public OrderDto createOrder(@RequestParam Long cartId) {
         Cart cart = getCart(cartId);
-        Order order = new Order(cart.getPrice().doubleValue(), LocalDate.now(), cart.getUser());
+        Order order = new Order(BigDecimal.valueOf(cart.getPrice().doubleValue()), LocalDate.now(), cart.getUser());
         cartDbService.createOrder(order);
-        return new OrderDto(order.getId(), order.getUserId().getId(), (int) order.getPrice());
+        return new OrderDto(order.getId(), order.getUserId().getId(), LocalDate.of(2021, 7, 15), new BigDecimal(String.valueOf(order.getPrice())));
     }
 
     private Cart getCart(Long cartId) {
