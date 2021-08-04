@@ -6,7 +6,7 @@ import java.util.Random;
 @AllArgsConstructor
 public class UserKeyGenerator {
 
-    private final String keyGenerateFrom = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+    private static String keyGenerateFrom = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 
     public String keyGenerator() {
         StringBuffer stringKeyGenerator = new StringBuffer();
