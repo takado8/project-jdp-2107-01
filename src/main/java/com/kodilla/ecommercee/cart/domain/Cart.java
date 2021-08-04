@@ -2,18 +2,16 @@ package com.kodilla.ecommercee.cart.domain;
 
 import com.kodilla.ecommercee.product.domain.Product;
 import com.kodilla.ecommercee.user.domain.User;
-import lombok.AllArgsConstructor;
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -48,4 +46,11 @@ public class Cart {
             inverseJoinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID")}
     )
     private List<Product> products = new ArrayList<>();
+
+    public Cart(String name, String description, double price, User userID) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.userID = userID;
+    }
 }
