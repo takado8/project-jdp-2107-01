@@ -19,6 +19,6 @@ public class UserDto {
     private String password;
     private boolean isBlocked;
     private List<Long> ordersId;
-    private List<Long> cartId;
+    private Long cartId;
 
 }

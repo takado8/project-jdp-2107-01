@@ -9,9 +9,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,7 +23,7 @@ public class User {
     @GeneratedValue
     @NotNull
     @Column(name = "ID", unique = true)
-    private Long userId;
+    private Long Id;
 
     @NotNull
     @Column(name = "USERNAME", unique = true)

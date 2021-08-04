@@ -5,7 +5,6 @@ import com.kodilla.ecommercee.order.domain.Order;
 import com.kodilla.ecommercee.order.repository.OrderDao;
 import com.kodilla.ecommercee.user.domain.User;
 import com.kodilla.ecommercee.user.domain.UserDto;
-import com.kodilla.ecommercee.user.repository.UserDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -18,7 +17,6 @@ public class UserMapper {
 
     private final OrderDao orderDao;
     private final CartDao cartDao;
-    private final UserDao userDao;
 
     public User mapToUser(final UserDto userDto) {
         User user = new User(
@@ -30,7 +28,7 @@ public class UserMapper {
                 userDto.getPassword(),
                 userDto.isBlocked(),
                 cartDao.findById(userDto.getCartId())
-//                        .orElseThrow(() -> new RuntimeException("Cart of id '" + userDto.getCartId() + "' does not exist")),
+                        .orElseThrow(() -> new RuntimeException("Cart of id " + userDto.getCartId() + " not exist")),
                 userDto.getOrdersId().stream()
                         .map(orderDao::findById)
                         .filter(Optional::isPresent)
@@ -41,17 +39,17 @@ public class UserMapper {
 
     public UserDto mapToUserDto(final User user) {
         UserDto userDto = new UserDto(
-                user.getUserId(),
+                user.getId(),
                 user.getUsername(),
                 user.isStatus(),
                 user.getUserKey(),
                 user.getEmail(),
                 user.getPassword(),
                 user.isBlocked(),
-                user.getCart().getId(),
                 user.getOrdersId().stream()
-                        .map(Order::getId)
-                        .collect(Collectors.toList()));
+                    .map(Order::getId)
+                    .collect(Collectors.toList()),
+                user.getCart().getId());
         return userDto;
     }
 
