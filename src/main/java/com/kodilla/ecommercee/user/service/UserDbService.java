@@ -14,8 +14,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserDbService {
 
-    private UserDao userDao;
-    private UserKeyGenerator userKeyGenerator;
+    private final UserDao userDao;
+    private final UserKeyGenerator userKeyGenerator;
 
     public User save(User user) {
         return userDao.save(user);
