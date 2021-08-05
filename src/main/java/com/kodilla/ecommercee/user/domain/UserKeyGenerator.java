@@ -1,8 +1,11 @@
 package com.kodilla.ecommercee.user.domain;
 
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
+
 import java.util.Random;
 
+@Component
 @AllArgsConstructor
 public class UserKeyGenerator {
 

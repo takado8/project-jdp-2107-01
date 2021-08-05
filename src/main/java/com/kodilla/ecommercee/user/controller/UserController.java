@@ -6,7 +6,10 @@ import com.kodilla.ecommercee.user.mapper.UserMapper;
 import com.kodilla.ecommercee.user.service.UserDbService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import javax.print.attribute.UnmodifiableSetException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/user")
@@ -26,7 +29,7 @@ public class UserController {
     @GetMapping("getUser")
     public UserDto getUser(@RequestParam Long userId) throws UserNotFoundException {
         return userMapper.mapToUserDto(
-                userDbService.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found")));
+                userDbService.findById(userId).orElseThrow(() -> new UserNotFoundException("User with id: " + userId + " not found")));
     }
 
     @PostMapping("createUser")

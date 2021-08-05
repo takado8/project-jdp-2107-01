@@ -49,7 +49,7 @@ public class User {
     @Column(name = "IS_BLOCKED")
     private boolean isBlocked;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "CART_ID")
     private Cart cart;
 
