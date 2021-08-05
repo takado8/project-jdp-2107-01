@@ -1,40 +1,67 @@
 package com.kodilla.ecommercee.cart.controller;
 
+import com.kodilla.ecommercee.cart.domain.Cart;
 import com.kodilla.ecommercee.cart.domain.CartDto;
+import com.kodilla.ecommercee.cart.mapper.CartMapper;
+import com.kodilla.ecommercee.cart.service.CartDbService;
+import com.kodilla.ecommercee.order.domain.Order;
+import com.kodilla.ecommercee.product.domain.Product;
 import com.kodilla.ecommercee.product.domain.ProductDto;
 import com.kodilla.ecommercee.order.domain.OrderDto;
+import com.kodilla.ecommercee.product.mapper.ProductMapper;
+import lombok.Data;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
+import java.time.LocalDate;
 import java.util.List;
 
-@RequestMapping("v1/cart")
+@RequestMapping("/v1/cart")
 @RestController
+@Data
 public class CartController {
+    private final CartDbService cartDbService;
+    private final CartMapper cartMapper;
+    private final ProductMapper productMapper;
 
-    @GetMapping(path = "products")
+    @GetMapping(path = "getProducts")
     public List<ProductDto> getProducts(@RequestParam Long cartId) {
-        ProductDto product1 = new ProductDto(1L, "kurtka zimowa", "Pellentesque tempus interdum quam ut rhoncus. Donec ullamcorper turpis dolor. Donec euismod pretium eros et eleifend. Aliquam vulputate faucibus lorem non auctor. Vivamus erat turpis, molestie a nisl non, scelerisque luctus enim. Nunc mi mi, laoreet ac mollis nec, pharetra sit amet tortor. Vivamus a bibendum purus.", 100, 1L);
-        ProductDto product2 = new ProductDto(2L, "płaszcz", "Pellentesque tempus interdum quam ut rhoncus. Donec ullamcorper turpis dolor. Donec euismod pretium eros et eleifend. Aliquam vulputate faucibus lorem non auctor. Vivamus erat turpis, molestie a nisl non, scelerisque luctus enim. Nunc mi mi, laoreet ac mollis nec, pharetra sit amet tortor. Vivamus a bibendum purus.", 150, 1L);
-        ProductDto product3 = new ProductDto(8L, "krawat", "Pellentesque tempus interdum quam ut rhoncus. Donec ullamcorper turpis dolor. Donec euismod pretium eros et eleifend. Aliquam vulputate faucibus lorem non auctor. Vivamus erat turpis, molestie a nisl non, scelerisque luctus enim. Nunc mi mi, laoreet ac mollis nec, pharetra sit amet tortor. Vivamus a bibendum purus.", 50, 2L);
-        return Arrays.asList(product1, product2, product3);
+        Cart cart = getCart(cartId);
+        return productMapper.mapToProductDtoList(cart.getProducts());
     }
 
     @PostMapping(path = "createCart")
     public void createCart(@RequestBody CartDto cartDto) {
+        cartDbService.createCart(cartMapper.mapDtoToCart(cartDto));
     }
 
-    @PostMapping(path = "add")
-    public void addProduct(@RequestParam Long productId, @RequestParam Long cartId) {
+    @PostMapping(path = "addProducts")
+    public void addProducts(@RequestParam List<Long> productsIds, @RequestParam Long cartId) {
+        Cart cart = getCart(cartId);
+        cartDbService.addProducts(productsIds, cart);
     }
 
-    @DeleteMapping(path = "delete")
-    public void deleteProduct(@RequestParam Long productId, @RequestParam Long cartId) {
+    @DeleteMapping(path = "deleteProduct")
+    public void deleteProduct(@RequestParam Long productId, @RequestParam Long cartId) throws Exception {
+        Cart cart = getCart(cartId);
+        Product product = cartDbService.getProductToDelete(productId)
+                .orElseThrow(() -> new RuntimeException("Product of id'" + productId + "' not found"));
+
+        if (!cart.getProducts().remove(product)) {
+            throw new Exception("Product of id '" + productId +
+                    "' not found in cart of id '" + cartId + "'");
+        }
     }
 
     @PostMapping(path = "createOrder")
     public OrderDto createOrder(@RequestParam Long cartId) {
-        return new OrderDto(1L, 1L, 100);
+        Cart cart = getCart(cartId);
+        Order order = new Order(cart.getPrice().doubleValue(), LocalDate.now(), cart.getUser());
+        cartDbService.createOrder(order);
+        return new OrderDto(order.getId(), order.getUserId().getId(), (int) order.getPrice());
     }
 
+    private Cart getCart(Long cartId) {
+        return cartDbService.getCart(cartId)
+                .orElseThrow(() -> new CartNotFoundException("Cart of id '" + cartId + "' not found."));
+    }
 }

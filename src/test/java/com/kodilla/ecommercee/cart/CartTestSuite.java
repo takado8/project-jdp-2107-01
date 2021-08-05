@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.AssertFalse;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +35,7 @@ public class CartTestSuite {
         //Given
         User user = new User();
         Product product = new Product("kurtka", 178.99);
-        Cart cart = new Cart("cartName", "cartDescription", 120.50, user);
+        Cart cart = new Cart("cartName", "cartDescription", BigDecimal.valueOf(120.50), user);
         cart.getProducts().add(product);
         userDao.save(user);
         productDao.save(product);
@@ -58,7 +59,7 @@ public class CartTestSuite {
         //Given
         User user = new User();
         Product product = new Product("kurtka", 178.99);
-        Cart cart = new Cart("cartName", "cartDescription", 120.50, user);
+        Cart cart = new Cart("cartName", "cartDescription", BigDecimal.valueOf(120.50), user);
         cart.getProducts().add(product);
         product.getCarts().add(cart);
         userDao.save(user);
@@ -85,7 +86,7 @@ public class CartTestSuite {
         //Given
         User user = new User();
         Product product = new Product("kurtka", 178.99);
-        Cart cart = new Cart("cartName", "cartDescription", 120.50, user);
+        Cart cart = new Cart("cartName", "cartDescription", BigDecimal.valueOf(120.50), user);
         cart.getProducts().add(product);
         product.getCarts().add(cart);
         user.setUsername("Pawel");
@@ -99,8 +100,8 @@ public class CartTestSuite {
         Cart savedCart = optionalCart.orElseThrow(() -> new RuntimeException("No Cart"));
 
         //Then
-        Assert.assertEquals(user,savedCart.getUserID());
-        Assert.assertEquals("Pawel", savedCart.getUserID().getUsername());
+        Assert.assertEquals(user,savedCart.getUser());
+        Assert.assertEquals("Pawel", savedCart.getUser().getUsername());
 
         //Clean up
         cartDao.deleteById(cart.getId());
@@ -113,7 +114,7 @@ public class CartTestSuite {
         //Given
         User user = new User();
         Product product = new Product("kurtka", 178.99);
-        Cart cart = new Cart("cartName", "cartDescription", 120.50, user);
+        Cart cart = new Cart("cartName", "cartDescription", BigDecimal.valueOf(120.50), user);
         cart.getProducts().add(product);
         product.getCarts().add(cart);
         userDao.save(user);
@@ -144,7 +145,7 @@ public class CartTestSuite {
         //Given
         User user = new User();
         Product product = new Product("kurtka", 178.99);
-        Cart cart = new Cart("cartName", "cartDescription", 120.50, user);
+        Cart cart = new Cart("cartName", "cartDescription", BigDecimal.valueOf(120.50), user);
         cart.getProducts().add(product);
         product.getCarts().add(cart);
         user.setUsername("Pawel");
