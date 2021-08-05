@@ -76,31 +76,28 @@ public class GroupTestSuite {
 
     @Test
     public void testShouldNOTProductsBeDeletedWhenDeletingGroup() {
+        //given
         Group group = new Group(null,"nazwa_grupy", new ArrayList<>());
-
-        //When
         groupDao.save(group);
 
         Product product1 = new Product(null,"nameeProduct1","desc",
                 56.67, group, new ArrayList<>(),new ArrayList<>());
-
         productDao.save(product1);
-
 
         List<Product> products = Arrays.asList(product1);
         group.setProducts(products);
-
-        // print all
+        //When
         Group groupFromDb = groupDao.findById(group.getId()).orElse(null);
         Product productFromDb = productDao.findById(product1.getId()).orElse(null);
-
-        System.out.println(groupFromDb.getProducts().get(0).getName());
-        System.out.println(productFromDb.getName());
+        //then
+        assertNotNull(productFromDb);
+        assertNotNull(groupFromDb);
+        assertEquals(groupFromDb.getProducts().get(0).getName(), productFromDb.getName());
         //When
         groupDao.deleteById(group.getId());
-
-        Optional<Product> prods = productDao.findById(product1.getId());
-        assertTrue(prods.isPresent());
+        Optional<Product> productFromDbAfterGroupDeletion = productDao.findById(product1.getId());
+        //then
+        assertTrue(productFromDbAfterGroupDeletion.isPresent());
     }
 //
 //    @Test
