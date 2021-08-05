@@ -1,13 +1,18 @@
 package com.kodilla.ecommercee.product;
 
 import com.kodilla.ecommercee.cart.domain.Cart;
+import com.kodilla.ecommercee.cart.domain.CartDto;
 import com.kodilla.ecommercee.cart.repository.CartDao;
 import com.kodilla.ecommercee.group.domain.Group;
 import com.kodilla.ecommercee.group.repository.GroupDao;
+import com.kodilla.ecommercee.order.domain.Order;
 import com.kodilla.ecommercee.order.repository.OrderDao;
 import com.kodilla.ecommercee.product.domain.Product;
+import com.kodilla.ecommercee.product.domain.ProductDto;
 import com.kodilla.ecommercee.product.repository.ProductDao;
+import com.kodilla.ecommercee.user.domain.User;
 import com.kodilla.ecommercee.user.repository.UserDao;
+import org.assertj.core.api.BigDecimalAssert;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -45,8 +52,6 @@ public class ProductTestSuite {
         Product product1 = new Product("Product1Test",199.99);
         Product product2 = new Product("Product2Test",119.89);
         Product product3 = new Product("Product3Test",62.99);
-
-        Group group = new Group(1L,"jackets",products);
 
         //When
         products.add(product1);
@@ -85,7 +90,7 @@ public class ProductTestSuite {
     }
 
     @Test
-    public void getCreateAndReadProduct() {
+    public void createAndReadProduct() {
         // Given
         Product product = new Product();
 
@@ -142,41 +147,80 @@ public class ProductTestSuite {
     }
 
     @Test
-    public void deleteProduct() {
+    public void deleteProductFromCart() {
         //Given
         List<Product> productList = new ArrayList<>();
-        Product product1 = new Product("winter jacket",699.99);
-        Product product2 = new Product("winter boots",499.99);
-        Product product3 = new Product("winter pants",299.99);
-        Group group = new Group(1L,"winter stuff",productList);
-
-        //When
-        groupDao.save(group);
-        product1.setId(1L);
-        product2.setId(1L);
-        product3.setId(1L);
+        Product product1 = new Product("productName1", 499.99);
+        Product product2 = new Product("productName2", 299.99);
         productList.add(product1);
         productList.add(product2);
-        productList.add(product3);
+        productDao.save(product1);
+        productDao.save(product2);
 
-        groupDao.deleteById();
+        User user = new User();
+        userDao.save(user);
+
+
+        Order order = new Order(2485.6, LocalDate.of(2021, 9, 8), user);
+        orderDao.save(order);
+
+        Cart cart = new Cart("CartName","Cart Description",123.123, user);
+        cart.getProducts().add(product1);
+        cart.getProducts().add(product2);
+        cartDao.save(cart);
+
+        //Deleting
+        cartDao.deleteById(product1.getId());
+
+        //When
 
         //Then
-        assertEquals(0,group.getProducts().size());
+        Assert.assertEquals(1, cart.getProducts().size());
         //Cleanup
-        productDao.deleteAll();
-        groupDao.deleteAll();
+        productDao.deleteById(product1.getId());
+        productDao.deleteById(product2.getId());
+        userDao.deleteById(user.getId());
+        orderDao.deleteById(order.getId());
+        cartDao.deleteById(cart.getId());
     }
 
     @Test
     public void testUpdateProduct() {
         //Given
+        List<Product> productList = new ArrayList<>();
+        Product product = new Product("winter jacket", 499.99);
+        Group group = new Group(1L,"groupName",productList);
+        Group updatedGroup = new Group();
 
         //When
+        productList.add(product);
+        productDao.save(product);
+        product.setName("summer jacket");
+        product.setPrice(299.99);
+        updatedGroup.setProducts(productList);
+        productDao.save(product);
+        groupDao.save(group);
+        groupDao.save(updatedGroup);
+
+        BigDecimal newPrice = new BigDecimal(product.getPrice());
+        newPrice = newPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
 
         //Then
+        Assert.assertEquals("summer jacket", product.getName());
+        Assert.assertEquals(newPrice, product.getPrice());
 
         //Cleanup
-
+        productDao.delete(product);
+        groupDao.delete(group);
+        groupDao.delete(updatedGroup);
     }
 }
+
+
+
+
+
+
+
+
+
