@@ -98,6 +98,7 @@ public class GroupTestSuite {
         Optional<Product> productFromDbAfterGroupDeletion = productDao.findById(product1.getId());
         //then
         assertTrue(productFromDbAfterGroupDeletion.isPresent());
+        assertFalse(groupDao.findById(group.getId()).isPresent());
     }
 //
 //    @Test
