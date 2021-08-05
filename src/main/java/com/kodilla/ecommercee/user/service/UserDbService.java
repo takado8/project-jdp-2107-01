@@ -36,7 +36,7 @@ public class UserDbService {
     public void blockUser(Long userId) throws UserNotFoundException {
         Optional<User> userToBlock = userDao.findById(userId);
         User blockedUser = userToBlock.orElseThrow(() ->new UserNotFoundException("User with id: " + userId + " not found"));
-        if (blockedUser.isBlocked()) {
+        if (!blockedUser.isBlocked()) {
             blockedUser.setBlocked(true);
         }
         userDao.save(blockedUser);
