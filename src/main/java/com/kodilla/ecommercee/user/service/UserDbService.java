@@ -35,7 +35,7 @@ public class UserDbService {
 
     public void blockUser(Long userId) throws UserNotFoundException {
         Optional<User> userToBlock = userDao.findById(userId);
-        User blockedUser = userToBlock.orElseThrow(() ->new UserNotFoundException("User not found"));
+        User blockedUser = userToBlock.orElseThrow(() ->new UserNotFoundException("User with id: " + userId + " not found"));
         if (blockedUser.isBlocked()) {
             blockedUser.setBlocked(true);
         }
@@ -45,7 +45,7 @@ public class UserDbService {
     public User generateUserKey(Long userId) throws UserNotFoundException {
 
         Optional<User> user = userDao.findById(userId);
-        User foundUser = user.orElseThrow(() ->new UserNotFoundException("User not found"));
+        User foundUser = user.orElseThrow(() ->new UserNotFoundException("User with id: " + userId + " not found"));
         String generatedKey = userKeyGenerator.keyGenerator();
         if (!foundUser.isBlocked()) {
             foundUser.setUserKey(generatedKey);
