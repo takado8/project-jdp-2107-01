@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -84,7 +85,8 @@ public class GroupTestSuite {
         Product product = new Product("Nike Runner", 299);
         Product anotherProduct = new Product( "Bluza", 169);
         Group group = new Group("Buty", new ArrayList<>());
-        group.getProducts().add(product);
+        group.setProducts( Arrays.asList( product, anotherProduct ));
+
         productDao.save(product);
         productDao.save(anotherProduct);
         groupDao.save(group);
