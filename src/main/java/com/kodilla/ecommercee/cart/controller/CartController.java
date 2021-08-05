@@ -56,9 +56,9 @@ public class CartController {
     @PostMapping(path = "createOrder")
     public OrderDto createOrder(@RequestParam Long cartId) {
         Cart cart = getCart(cartId);
-        Order order = new Order(BigDecimal.valueOf(cart.getPrice().doubleValue()), LocalDate.now(), cart.getUser());
+        Order order = new Order(LocalDate.now(), BigDecimal.valueOf(cart.getPrice().doubleValue()), cart.getUser());
         cartDbService.createOrder(order);
-        return new OrderDto(order.getId(), order.getUserId().getId(), LocalDate.of(2021, 7, 15), new BigDecimal(String.valueOf(order.getPrice())));
+        return new OrderDto(order.getId(), LocalDate.of(2021, 7, 15), BigDecimal.valueOf(cart.getPrice().doubleValue()), null, order.getUser().getId());
     }
 
     private Cart getCart(Long cartId) {

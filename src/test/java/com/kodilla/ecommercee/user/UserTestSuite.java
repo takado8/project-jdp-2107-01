@@ -79,9 +79,9 @@ public class UserTestSuite {
     @Test
     public void testRelationUserOrder() {
         //Given
-        Order order = new Order(new BigDecimal("525"), LocalDate.of(2021, 7, 15), user);
-        Order order2 = new Order(new BigDecimal("122.5"), LocalDate.of(2021, 7, 15), user);
-        Order order3 = new Order(new BigDecimal("10524.5"), LocalDate.of(2021, 7, 15), user);
+        Order order = new Order(LocalDate.of(2021, 7, 15), new BigDecimal("525"), user);
+        Order order2 = new Order(LocalDate.of(2021, 7, 15), new BigDecimal("122.5"), user);
+        Order order3 = new Order(LocalDate.of(2021, 7, 15), new BigDecimal("10524.5"), user);
         orders.add(order);
         orders.add(order2);
         orders.add(order3);
@@ -104,9 +104,9 @@ public class UserTestSuite {
     @Test
     public void testDeleteUserDoesNotDeleteOrders() {
         //Given
-        Order order = new Order(new BigDecimal("525"), LocalDate.of(2021, 7, 15), user);
-        Order order2 = new Order(new BigDecimal("122.5"), LocalDate.of(2021, 7, 15), user);
-        Order order3 = new Order(new BigDecimal("10524.5"), LocalDate.of(2021, 7, 15), user);
+        Order order = new Order(LocalDate.of(2021, 7, 15), new BigDecimal("525"), user);
+        Order order2 = new Order(LocalDate.of(2021, 7, 15), new BigDecimal("122.5"), user);
+        Order order3 = new Order(LocalDate.of(2021, 7, 15), new BigDecimal("10524.5"), user);
         orders.add(order);
         orders.add(order2);
         orders.add(order3);
