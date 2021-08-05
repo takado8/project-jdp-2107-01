@@ -33,4 +33,9 @@ public class Group {
             fetch = FetchType.LAZY
     )
     private List<Product> products;
+
+    public Group(@NotNull String name, List<Product> products) {
+        this.name = name;
+        this.products = products;
+    }
 }
