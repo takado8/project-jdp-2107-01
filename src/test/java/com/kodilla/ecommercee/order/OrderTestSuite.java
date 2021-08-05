@@ -16,11 +16,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.result.StatusResultMatchersExtensionsKt.isEqualTo;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -46,8 +44,8 @@ public class OrderTestSuite {
         Product product2 = new Product("name product 2", 145.71);
         Product product3 = new Product("name product 3", 159.99);
         Product product4 = new Product("name product 4", 15.61);
-        Order order = new Order(new BigDecimal("2485.6"), LocalDate.of(2021, 9, 8), user);
-        Order order2 = new Order(new BigDecimal("305.7"), LocalDate.of(2021, 9, 8), user2);
+        Order order = new Order(LocalDate.of(2021, 9, 8), new BigDecimal("2485.6"), user);
+        Order order2 = new Order(LocalDate.of(2021, 9, 8), new BigDecimal("305.7"), user2);
 
         order.getProducts().add(product);
         order.getProducts().add(product4);
@@ -75,8 +73,8 @@ public class OrderTestSuite {
         //Then
         assertNotEquals(0, orderId, 0.1);
         assertNotEquals(0, order2Id, 0.1);
-        assertEquals("test_username", order.getUserId().getUsername());
-        assertEquals("test_username2", order2.getUserId().getUsername());
+        assertEquals("test_username", order.getUser().getUsername());
+        assertEquals("test_username2", order2.getUser().getUsername());
 
 
         //Clean up
@@ -95,8 +93,8 @@ public class OrderTestSuite {
         //Given
         User user = new User();
         User user2 = new User();
-        Order order = new Order(new BigDecimal("2485.6"), LocalDate.of(2021, 9, 8), user);
-        Order order2 = new Order(new BigDecimal("305.7"), LocalDate.of(2021, 9, 8), user2);
+        Order order = new Order(LocalDate.of(2021, 9, 8), new BigDecimal("2485.6"), user);
+        Order order2 = new Order(LocalDate.of(2021, 9, 8), new BigDecimal("2432385.6"), user2);
 
         //When
         userDao.save(user);
@@ -124,8 +122,8 @@ public class OrderTestSuite {
         //Given
         User user = new User();
         User user2 = new User();
-        Order order = new Order(new BigDecimal("2485.6"), LocalDate.of(2021, 9, 8), user);
-        Order order2 = new Order(new BigDecimal("305.7"), LocalDate.of(2021, 9, 8), user2);
+        Order order = new Order(LocalDate.of(2021, 9, 8), new BigDecimal("2485.6"), user);
+        Order order2 = new Order(LocalDate.of(2021, 9, 8), new BigDecimal("2482325.6"), user2);
 
         //When
         userDao.save(user);
@@ -157,8 +155,8 @@ public class OrderTestSuite {
         //Given
         User user = new User();
         User user2 = new User();
-        Order order = new Order(new BigDecimal("2485.6"), LocalDate.of(2021, 9, 8), user);
-        Order order2 = new Order(new BigDecimal("305.7"), LocalDate.of(2021, 9, 8), user2);
+        Order order = new Order(LocalDate.of(2021, 9, 8), new BigDecimal("2485.6"), user);
+        Order order2 = new Order(LocalDate.of(2021, 9, 8), new BigDecimal("305.7"), user2);
         Product product = new Product("name product 2", 145.71);
         Product product2 = new Product("name product 3", 159.99);
 
@@ -205,8 +203,8 @@ public class OrderTestSuite {
         //Given
         User user = new User();
         User user2 = new User();
-        Order order = new Order(new BigDecimal("2485.6"), LocalDate.of(2021, 9, 8), user);
-        Order order2 = new Order(new BigDecimal("305.7"), LocalDate.of(2021, 9, 8), user2);
+        Order order = new Order(LocalDate.of(2021, 9, 8), new BigDecimal("2485.6"), user);
+        Order order2 = new Order(LocalDate.of(2021, 9, 8), new BigDecimal("305.7"), user2);
         Product product = new Product("name product 2", 145.71);
         Product product2 = new Product("name product 3", 159.99);
 

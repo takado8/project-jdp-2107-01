@@ -6,13 +6,15 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDto {
     private Long id;
-    private Long userId;
     private LocalDate dateOfOrder;
     private BigDecimal price;
+    private List<Long> productsIds;
+    private Long userId;
 }
