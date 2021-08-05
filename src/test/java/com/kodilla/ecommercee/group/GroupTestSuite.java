@@ -35,6 +35,7 @@ public class GroupTestSuite {
 
         //When
         Long groupId = group.getId();
+        Long productId = product.getId();
         Group savedGroup = groupDao.findById(groupId).orElseThrow(RuntimeException::new);
 
         //Then
@@ -42,6 +43,7 @@ public class GroupTestSuite {
 
         //CleanUp
         groupDao.deleteById(groupId);
+        productDao.deleteById(productId);
     }
 
     @Test
@@ -57,6 +59,8 @@ public class GroupTestSuite {
 
         //When
         Long groupId = group.getId();
+        Long productId = product.getId();
+        Long anotherProductId = anotherProduct.getId();
         Group savedGroup = groupDao.findById(groupId).orElseThrow(RuntimeException::new);
         savedGroup.setName("Odzież");
         savedGroup.getProducts().add(anotherProduct);
@@ -70,6 +74,8 @@ public class GroupTestSuite {
 
         //CleanUp
         groupDao.deleteById(groupId);
+        productDao.deleteById(productId);
+        productDao.deleteById(anotherProductId);
     }
 
     @Test
