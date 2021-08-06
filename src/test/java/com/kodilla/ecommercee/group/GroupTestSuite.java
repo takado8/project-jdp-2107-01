@@ -45,8 +45,6 @@ public class GroupTestSuite {
         //Then
         Assert.assertTrue(optionalGroup.isPresent());
 
-        //CleanUp
-        groupDao.deleteById(id);
     }
 
     @Test(expected = UnsupportedOperationException.class)
