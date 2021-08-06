@@ -9,8 +9,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,7 +23,7 @@ public class User {
     @GeneratedValue
     @NotNull
     @Column(name = "ID", unique = true)
-    private Long id;
+    private Long Id;
 
     @NotNull
     @Column(name = "USERNAME", unique = true)
@@ -35,7 +35,7 @@ public class User {
 
     @NotNull
     @Column(name = "USER_KEY")
-    private String user_key;
+    private String userKey;
 
     @NotNull
     @Column(name = "EMAIL")
@@ -45,12 +45,20 @@ public class User {
     @Column(name = "PASSWORD")
     private String password;
 
+    @NotNull
+    @Column(name = "IS_BLOCKED")
+    private boolean isBlocked;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "CART_ID")
+    private Cart cart;
+
     @OneToMany(
             targetEntity = Order.class,
             mappedBy = "userId",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    private List<Order> orders = new ArrayList<>();
+    private List<Order> ordersId;
 
 }

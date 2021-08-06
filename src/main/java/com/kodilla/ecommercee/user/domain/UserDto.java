@@ -1,10 +1,11 @@
 package com.kodilla.ecommercee.user.domain;
 
+import com.kodilla.ecommercee.order.domain.Order;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Random;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -12,18 +13,12 @@ import java.util.Random;
 public class UserDto {
     private Long userId;
     private String username;
+    private boolean status;
+    private String userKey;
     private String email;
     private String password;
-    private String status;
-    private Long userKey;
     private boolean isBlocked;
+    private List<Long> ordersId;
+    private Long cartId;
 
-    public void generateUserKey(Long userKey) {
-        Random random = new Random();
-        this.userKey = random.nextLong();
-    }
-
-    public void blockUser(boolean isBlocked) {
-        this.isBlocked = !isBlocked;
-    }
 }
