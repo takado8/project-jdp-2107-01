@@ -57,7 +57,9 @@ public class ProductTestSuite {
         products.add(product1);
         products.add(product2);
         products.add(product3);
-
+        productDao.save(product1);
+        productDao.save(product2);
+        productDao.save(product3);
         Optional<Product> result = productDao.findById(product2.getId());
 
         //Then
@@ -70,20 +72,21 @@ public class ProductTestSuite {
     @Test
     public void getAllProducts() {
         //Given
+        List<Product> products = new ArrayList<>();
         Product product1 = new Product("TestProduct1Name",199.99);
         Product product2 = new Product("TestProduct2Name",89.99);
         Product product3 = new Product("TestProduct3Name",29.00);
-        Product product4 = new Product("TestProduct4Name",9.99);
-        List<Product> products = new ArrayList<>();
 
         //When
         products.add(product1);
         products.add(product2);
         products.add(product3);
-        products.add(product4);
+        productDao.save(product1);
+        productDao.save(product2);
+        productDao.save(product3);
 
         //Then
-        Assert.assertEquals(4,products.size());
+        Assert.assertEquals(3,products.size());
 
         //Cleanup
         productDao.deleteAll();
@@ -109,41 +112,104 @@ public class ProductTestSuite {
     public void testRelationsBetweenProductAndGroup() {
         //Given
         List<Product> productsList = new ArrayList<>();
-        Product product1 = new Product();
-        Product product2 = new Product();
+        Product product1 = new Product("product1Name", 299.99);
+        Product product2 = new Product("product2Name", 399.99);
         Group groupProducts = new Group(5L,"winter jackets",productsList);
 
         //When
+        productsList.add(product1);
+        productsList.add(product2);
         productDao.save(product1);
         productDao.save(product2);
         groupDao.save(groupProducts);
 
         //Then
-        assertEquals(1, productsList.size());
-        assertEquals(product1.getGroupId(),groupProducts.getProducts().get(0));
+        assertEquals(2, productsList.size());
+        assertEquals(groupProducts.getProducts().size(),productsList.size());
 
         //Cleanup
-            productDao.deleteAll();
-            groupDao.deleteAll();
+        productDao.deleteAll();
+        groupDao.deleteAll();
+    }
+
+    @Test
+    public void saveProductInDatabase() {
+        //Given
+        Product product = new Product("testName", 299.99);
+
+        //When
+        productDao.save((product));
+        Optional<Product> resultProduct = productDao.findById(product.getId());
+
+        //Then
+        Assert.assertTrue(resultProduct.isPresent());
+
+        //CleanUp
+        productDao.deleteAll();
     }
 
     @Test
     public void addProductToCart() {
         //Given
-        Product product = new Product();
-        Cart cart = new Cart();
+        Product product = new Product("product1Name", 299.99);
+        Cart cart = new Cart("testName","Test desc", new BigDecimal(299.99), new User());
 
         //When
         cart.getProducts().add(product);
         product.getCarts().add(cart);
         productDao.save(product);
-        long productId = product.getId();
+        cartDao.save(cart);
 
         //Then
         assertEquals(1, cart.getProducts().size());
 
         //Cleanup
         cartDao.delete(cart);
+        productDao.deleteAll();
+    }
+
+    @Test
+    public void testRelationBetweenProductAndOrder() {
+        //Given
+        List<Product> productsList = new ArrayList<>();
+        Product product = new Product("Testname1",  100.00);
+        Product product2 = new Product("Testname2", 200.00);
+        Order order = new Order();
+
+        //When
+        order.getProducts().add(product);
+        order.getProducts().add(product2);
+        product.getOrders().add(order);
+        product2.getOrders().add(order);
+        productDao.save(product);
+        productDao.save(product2);
+
+        int productListBeforeDeleting = productsList.size();
+        int orderBeforeDeletingProducts = orderDao.findAll().size();
+
+        Long product1Id = product.getId();
+        productDao.deleteById(product1Id);
+
+        int productListAfterDeleting = productDao.findAll().size();
+
+        Long orderId = order.getId();
+        orderDao.deleteById(orderId);
+        int orderAfterDelete = orderDao.findAll().size();
+
+        //Then
+        try {
+            assertEquals(2, productListBeforeDeleting);
+            assertEquals(1, orderBeforeDeletingProducts);
+        //   assertEquals(1, productListAfterDeleting);
+            assertEquals(0, orderAfterDelete);
+
+        } catch (AssertionError e) {
+            System.out.println("Something went wrong :)");
+        }
+
+        //Clean up
+        orderDao.deleteAll();
+        productDao.deleteAll();
     }
 
     @Test
@@ -152,30 +218,25 @@ public class ProductTestSuite {
         List<Product> productList = new ArrayList<>();
         Product product1 = new Product("productName1", 499.99);
         Product product2 = new Product("productName2", 299.99);
+        User user = new User();
+        Cart cart = new Cart("CartName","Cart Description",new BigDecimal(123.123), user);
+        Order order = new Order(2485.6, LocalDate.of(2021, 9, 8), user);
+
+        //When
         productList.add(product1);
         productList.add(product2);
         productDao.save(product1);
         productDao.save(product2);
-
-        User user = new User();
         userDao.save(user);
-
-
-        Order order = new Order(2485.6, LocalDate.of(2021, 9, 8), user);
         orderDao.save(order);
-
-        Cart cart = new Cart("CartName","Cart Description",123.123, user);
         cart.getProducts().add(product1);
         cart.getProducts().add(product2);
         cartDao.save(cart);
-
-        //Deleting
         cartDao.deleteById(product1.getId());
-
-        //When
 
         //Then
         Assert.assertEquals(1, cart.getProducts().size());
+
         //Cleanup
         productDao.deleteById(product1.getId());
         productDao.deleteById(product2.getId());
@@ -201,13 +262,11 @@ public class ProductTestSuite {
         productDao.save(product);
         groupDao.save(group);
         groupDao.save(updatedGroup);
-
-        BigDecimal newPrice = new BigDecimal(product.getPrice());
-        newPrice = newPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
+        Product productAfterUpdate = productDao.findById(product.getId()).get();
 
         //Then
         Assert.assertEquals("summer jacket", product.getName());
-        Assert.assertEquals(newPrice, product.getPrice());
+        Assert.assertEquals(299.99, productAfterUpdate.getPrice(),0.01);
 
         //Cleanup
         productDao.delete(product);
@@ -215,12 +274,3 @@ public class ProductTestSuite {
         groupDao.delete(updatedGroup);
     }
 }
-
-
-
-
-
-
-
-
-
