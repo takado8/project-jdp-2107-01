@@ -49,8 +49,8 @@ public class GroupTestSuite {
         groupDao.deleteById(id);
     }
 
-    @Test
-    public void testWhenDeletingGroupProductsShouldntBeDeleted(){
+    @Test(expected = UnsupportedOperationException.class)
+    public void testWhenDeletingGroupByIdExceptionShouldBeThrown(){
         //Given
         Product product1 = new Product("product1", 25.6);
         Product product2 = new Product("product2", 100.50);
@@ -67,30 +67,8 @@ public class GroupTestSuite {
         //When
         groupDao.deleteById(group.getId());
 
-        //Then
-        Assert.assertFalse(groupDao.existsById(group.getId()));
-        Assert.assertTrue(productDao.existsById(product1.getId()));
-        Assert.assertTrue(productDao.existsById(product2.getId()));
     }
 
-    @Test
-    public void testWhenDeletingProductGroupShouldntBeDeleted(){
-        //Given
-        Product product1 = new Product("product1", 25.6);
-        Product product2 = new Product("product2", 100.50);
-        List<Product> products = Arrays.asList(product1,product2);
-        Group group = new Group("nazwa_grupy", products);
-        product1.setGroupId(group);
-        product2.setGroupId(group);
-
-        groupDao.save(group);
-
-        //When
-        productDao.deleteById(product2.getId());
-
-        //Then
-        Assert.assertTrue(groupDao.existsById(group.getId()));
-    }
 
     @Test
     public void testShouldUpdateGroupName(){
