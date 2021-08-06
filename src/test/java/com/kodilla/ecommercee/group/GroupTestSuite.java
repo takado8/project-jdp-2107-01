@@ -50,7 +50,7 @@ public class GroupTestSuite {
     }
 
     @Test
-    public void testShouldProductsBeDeletedWhenDeletingGroup(){
+    public void testWhenDeletingGroupProductsShouldntBeDeleted(){
         //Given
         Product product1 = new Product("product1", 25.6);
         Product product2 = new Product("product2", 100.50);
@@ -60,14 +60,17 @@ public class GroupTestSuite {
         product2.setGroupId(group);
 
         groupDao.save(group);
+        productDao.save(product1);
+        productDao.save(product2);
+
 
         //When
         groupDao.deleteById(group.getId());
 
         //Then
         Assert.assertFalse(groupDao.existsById(group.getId()));
-        Assert.assertFalse(productDao.existsById(product1.getId()));
-        Assert.assertFalse(productDao.existsById(product2.getId()));
+        Assert.assertTrue(productDao.existsById(product1.getId()));
+        Assert.assertTrue(productDao.existsById(product2.getId()));
     }
 
     @Test
