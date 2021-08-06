@@ -177,10 +177,7 @@ public class ProductTestSuite {
         Order order = new Order();
 
         //When
-        order.getProducts().add(product);
-        order.getProducts().add(product2);
-        product.getOrders().add(order);
-        product2.getOrders().add(order);
+        order.setProducts(productsList);
         productDao.save(product);
         productDao.save(product2);
 
@@ -200,7 +197,7 @@ public class ProductTestSuite {
         try {
             assertEquals(2, productListBeforeDeleting);
             assertEquals(1, orderBeforeDeletingProducts);
-        //   assertEquals(1, productListAfterDeleting);
+           assertEquals(1, productListAfterDeleting);
             assertEquals(0, orderAfterDelete);
 
         } catch (AssertionError e) {
@@ -218,31 +215,26 @@ public class ProductTestSuite {
         List<Product> productList = new ArrayList<>();
         Product product1 = new Product("productName1", 499.99);
         Product product2 = new Product("productName2", 299.99);
-        User user = new User();
-        Cart cart = new Cart("CartName","Cart Description",new BigDecimal(123.123), user);
-        Order order = new Order(2485.6, LocalDate.of(2021, 9, 8), user);
+        Cart cart = new Cart();
 
         //When
         productList.add(product1);
         productList.add(product2);
         productDao.save(product1);
         productDao.save(product2);
-        userDao.save(user);
-        orderDao.save(order);
-        cart.getProducts().add(product1);
-        cart.getProducts().add(product2);
-        cartDao.save(cart);
-        cartDao.deleteById(product1.getId());
 
+        cart.setProducts(productList);
+        cartDao.save(cart);
+
+        cartDao.deleteById(product1.getId());
+        int productsAfterDeleting = cart.getProducts().size();
         //Then
-        Assert.assertEquals(1, cart.getProducts().size());
+        Assert.assertEquals(2, cartDao.findAll());
+        Assert.assertEquals(1,productsAfterDeleting);
 
         //Cleanup
-        productDao.deleteById(product1.getId());
-        productDao.deleteById(product2.getId());
-        userDao.deleteById(user.getId());
-        orderDao.deleteById(order.getId());
-        cartDao.deleteById(cart.getId());
+        productDao.deleteAll();
+        cartDao.deleteAll();
     }
 
     @Test
