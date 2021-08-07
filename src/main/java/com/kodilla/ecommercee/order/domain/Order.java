@@ -44,7 +44,7 @@ public class Order {
     @Column(name = "DATE")
     private LocalDate dateOfOrder;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")
     private User user;
 
