@@ -1,18 +1,15 @@
 package com.kodilla.ecommercee.product;
 
 import com.kodilla.ecommercee.cart.domain.Cart;
-import com.kodilla.ecommercee.cart.domain.CartDto;
 import com.kodilla.ecommercee.cart.repository.CartDao;
 import com.kodilla.ecommercee.group.domain.Group;
 import com.kodilla.ecommercee.group.repository.GroupDao;
 import com.kodilla.ecommercee.order.domain.Order;
 import com.kodilla.ecommercee.order.repository.OrderDao;
 import com.kodilla.ecommercee.product.domain.Product;
-import com.kodilla.ecommercee.product.domain.ProductDto;
 import com.kodilla.ecommercee.product.repository.ProductDao;
 import com.kodilla.ecommercee.user.domain.User;
 import com.kodilla.ecommercee.user.repository.UserDao;
-import org.assertj.core.api.BigDecimalAssert;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,8 +22,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 
 @RunWith(SpringRunner.class)
@@ -161,8 +157,20 @@ public class ProductTestSuite {
         cartDao.save(cart);
 
         //Then
-        assertEquals(1, cart.getProducts().size());
-
+        Long cartId = cart.getId();
+        assertNotNull(cartId);
+        Cart cartFromDb = cartDao.findById(cartId).orElse(null);
+        assertNotNull(cartFromDb);
+        List<Product> cartItems = cartFromDb.getProducts();
+        assertNotNull(cartItems);
+        assertNotEquals(0, cartItems.size());
+        assertEquals(1, cartItems.size());
+        Product productFromDb = cartItems.get(0);
+        Long itemFromDbId = productFromDb.getId();
+        Long itemId = product.getId();
+        assertNotNull(itemFromDbId);
+        assertNotNull(itemId);
+        assertEquals(itemFromDbId, itemId);
         //Cleanup
         cartDao.delete(cart);
         productDao.deleteAll();
@@ -175,12 +183,14 @@ public class ProductTestSuite {
         Product product = new Product("Testname1",  100.00);
         Product product2 = new Product("Testname2", 200.00);
         Order order = new Order();
-
+        // fix error: order must be saved first, with all @NotNull fields filled up
+        order.setDateOfOrder(LocalDate.now());
+        order.setPrice(56.66);
+        orderDao.save(order);
         //When
         order.setProducts(productsList);
         productDao.save(product);
         productDao.save(product2);
-
         int productListBeforeDeleting = productsList.size();
         int orderBeforeDeletingProducts = orderDao.findAll().size();
 
@@ -212,29 +222,64 @@ public class ProductTestSuite {
     @Test
     public void deleteProductFromCart() {
         //Given
-        List<Product> productList = new ArrayList<>();
-        Product product1 = new Product("productName1", 499.99);
-        Product product2 = new Product("productName2", 299.99);
-        Cart cart = new Cart();
+        Product product = new Product("product1Name", 299.99);
+        Cart cart = new Cart("testName","Test desc", new BigDecimal(299.99), new User());
 
         //When
-        productList.add(product1);
-        productList.add(product2);
-        productDao.save(product1);
-        productDao.save(product2);
-
-        cart.setProducts(productList);
+        cart.getProducts().add(product);
+        product.getCarts().add(cart);
+        productDao.save(product);
         cartDao.save(cart);
+        Long cartId = cart.getId();
+        Long productId = product.getId();
+        assertNotNull(productId);
+        assertNotNull(cartId);
 
-        cartDao.deleteById(product1.getId());
-        int productsAfterDeleting = cart.getProducts().size();
-        //Then
-        Assert.assertEquals(2, cartDao.findAll());
-        Assert.assertEquals(1,productsAfterDeleting);
+        Cart cartFromDb = cartDao.findById(cartId).orElse(null);
+        assertNotNull(cartFromDb);
+        List<Product> productsFromDb = cartFromDb.getProducts();
+        assertNotNull(productsFromDb);
+        assertNotEquals(0, productsFromDb.size());
+        assertEquals(1, productsFromDb.size());
+        cartFromDb.getProducts().remove(product);
+        cartDao.save(cartFromDb);
 
+
+        Cart cartFromDb2 = cartDao.findById(cartId).orElse(null);
+        assertNotNull(cartFromDb2);
+
+        List<Product> fromDb2Products = cartFromDb2.getProducts();
+        assertNotNull(fromDb2Products);
+        assertEquals(0, fromDb2Products.size());
+
+        // fix error: user must be saved first, with all @NotNull fields filled up
+        User user = cart.getUser();
+        user.setBlocked(false);
+        user.setUserKey("sdfdfsdf");
+        user.setEmail("adssdfsdf");
+        user.setUsername("asdasdasd");
+        user.setStatus(true);
+        user.setPassword("sdfsdgsf");
+        userDao.save(user);
+
+        // test btw. if removing cart does not remove product from db
+        cartDao.deleteById(cartId);
+        Product productShouldStillExist = productDao.findById(productId).orElse(null);
+        assertNotNull(productShouldStillExist);
+        assertEquals(productId, productShouldStillExist.getId());
         //Cleanup
-        productDao.deleteAll();
-        cartDao.deleteAll();
+        productDao.deleteById(productId);
+
+        // test btw. if removing cart does not remove user from db
+        Long userId = user.getId();
+        assertNotNull(userId);
+        User userShouldStillExist = userDao.findById(userId).orElse(null);
+        assertNotNull(userShouldStillExist);
+        assertEquals(userId, userShouldStillExist.getId());
+        //Cleanup
+        userDao.deleteById(userId);
+
+//        cartDao.deleteById(productId); to usuwa cart, a podane jest id produktu
     }
 
     @Test
