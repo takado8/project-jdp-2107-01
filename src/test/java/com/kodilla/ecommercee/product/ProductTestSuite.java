@@ -146,10 +146,6 @@ public class ProductTestSuite {
         productDao.deleteById(product2.getId());
         assertTrue(productDao.findAll().isEmpty());
         assertTrue(groupDao.findById(groupProducts.getId()).isPresent());
-
-
-        //Cleanup
-        groupDao.deleteById(groupProducts.getId());
     }
 
     @Test
