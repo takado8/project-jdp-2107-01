@@ -33,6 +33,12 @@ public class Group {
             targetEntity = Product.class,
             mappedBy = "groupId",
             fetch = FetchType.LAZY
+//            cascade = CascadeType.PERSIST
     )
     private List<Product> products = new ArrayList<>();
+
+    public Group(@NotNull String name, List<Product> products) {
+        this.name = name;
+        this.products = products;
+    }
 }

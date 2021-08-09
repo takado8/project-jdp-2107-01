@@ -3,19 +3,33 @@ package com.kodilla.ecommercee.cart.domain;
 import com.kodilla.ecommercee.product.domain.Product;
 import com.kodilla.ecommercee.user.domain.User;
 import com.sun.istack.NotNull;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity
 public class Cart {
+    public Cart(String name, String description, BigDecimal price, User user) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.user = user;
+    }
+
+    public Cart(String name, String description, BigDecimal price, User user, List<Product> products) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.user = user;
+        this.products = products;
+    }
 
     @Id
     @GeneratedValue
@@ -33,11 +47,11 @@ public class Cart {
 
     @NotNull
     @Column(name = "PRICE")
-    private double price;
+    private BigDecimal price;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")
-    private User userID;
+    private User user;
 
     @ManyToMany
     @JoinTable(
@@ -47,10 +61,5 @@ public class Cart {
     )
     private List<Product> products = new ArrayList<>();
 
-    public Cart(String name, String description, double price, User userID) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.userID = userID;
-    }
+
 }

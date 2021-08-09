@@ -16,7 +16,6 @@ public class ProductController {
     private final ProductDbService productDbService;
     private final ProductMapper productMapper;
 
-
     @GetMapping("getProducts")
     public List<ProductDto> getProducts() {
         return productMapper.mapToProductDtoList(
