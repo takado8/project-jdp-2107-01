@@ -23,7 +23,7 @@ public class ProductDbService {
     }
 
     public Product getProduct(final Long id) {
-        return productDao.findById(id).orElseThrow(ProductNotFoundException::new);
+        return productDao.findById(id).orElseThrow( () -> new ProductNotFoundException("tutaj wiadomosc errora, id" + id +" nie istnieje"));
     }
 
     public Product saveProduct(final Product product) {

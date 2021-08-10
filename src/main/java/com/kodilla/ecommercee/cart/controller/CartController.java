@@ -11,8 +11,6 @@ import com.kodilla.ecommercee.order.domain.OrderDto;
 import com.kodilla.ecommercee.product.mapper.ProductMapper;
 import lombok.Data;
 import org.springframework.web.bind.annotation.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -26,11 +24,8 @@ public class CartController {
 
     @GetMapping(path = "getProducts")
     public List<ProductDto> getProducts(@RequestParam Long cartId) {
-
-        ProductDto product1 = new ProductDto(1L, "kurtka zimowa", "opis", 100, 1L, new ArrayList<>(), new ArrayList<>());
-        ProductDto product2 = new ProductDto(2L, "płaszcz", "opis", 100, 1L, new ArrayList<>(), new ArrayList<>());
-        ProductDto product3 = new ProductDto(8L, "krawat", "opis", 100, 1L, new ArrayList<>(), new ArrayList<>());
-        return Arrays.asList(product1, product2, product3);
+        Cart cart = getCart(cartId);
+        return productMapper.mapToProductDtoList(cart.getProducts());
     }
 
     @PostMapping(path = "createCart")
