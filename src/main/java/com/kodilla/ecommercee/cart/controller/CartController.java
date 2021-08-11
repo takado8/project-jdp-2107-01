@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("/v1/cart")
@@ -31,8 +32,8 @@ public class CartController {
     }
 
     @PostMapping(path = "createCart")
-    public void createCart(@RequestBody CartDto cartDto) {
-        cartDbService.createCart(cartMapper.mapDtoToCart(cartDto));
+    public CartDto createCart(@RequestBody CartDto cartDto) {
+        return cartMapper.mapCartToDto(cartDbService.createCart(cartMapper.mapDtoToCart(cartDto)));
     }
 
     @PostMapping(path = "addProducts")
@@ -59,6 +60,11 @@ public class CartController {
         Order order = new Order(LocalDate.now(), BigDecimal.valueOf(cart.getPrice().doubleValue()), cart.getUser());
         cartDbService.createOrder(order);
         return new OrderDto(order.getId(), LocalDate.of(2021, 7, 15), BigDecimal.valueOf(cart.getPrice().doubleValue()), null, order.getUser().getId());
+
+        Order order = new Order(cart.getPrice().doubleValue(), LocalDate.now(), cart.getUser());
+        order.setProducts(new ArrayList<>(cart.getProducts()));
+        Order savedOrder = cartDbService.createOrder(order);
+        return new OrderDto(savedOrder.getId(), savedOrder.getUserId().getId(), (int) savedOrder.getPrice());
     }
 
     private Cart getCart(Long cartId) {

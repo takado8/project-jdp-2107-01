@@ -25,8 +25,8 @@ public class CartDbService {
         return cartDao.findById(cartId);
     }
 
-    public void createCart(Cart cart){
-        cartDao.save(cart);
+    public Cart createCart(Cart cart){
+        return cartDao.save(cart);
     }
 
     public void addProducts(List<Long> productsIds, Cart cart) {
@@ -38,7 +38,7 @@ public class CartDbService {
         return productDao.findById(productId);
     }
 
-    public void createOrder(Order order) {
-        orderDao.save(order);
+    public Order createOrder(Order order) {
+        return orderDao.save(order);
     }
 }

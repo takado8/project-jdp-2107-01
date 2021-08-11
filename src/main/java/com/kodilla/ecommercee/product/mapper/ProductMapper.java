@@ -9,10 +9,8 @@ import com.kodilla.ecommercee.product.domain.Product;
 import com.kodilla.ecommercee.product.domain.ProductDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
-
 import java.util.stream.Collectors;
 
 @Service
