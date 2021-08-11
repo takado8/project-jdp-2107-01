@@ -13,6 +13,4 @@ public interface ProductDao extends CrudRepository<Product, Long> {
     @Override
     List<Product> findAll();
     List<Product> findAllById(List<Long> id);
-    @Override
-    List<Product> findAll();
 }
