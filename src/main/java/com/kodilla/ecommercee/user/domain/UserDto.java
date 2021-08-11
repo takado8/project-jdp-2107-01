@@ -1,6 +1,5 @@
 package com.kodilla.ecommercee.user.domain;
 
-import com.kodilla.ecommercee.order.domain.Order;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +18,4 @@ public class UserDto {
     private String password;
     private boolean isBlocked;
     private List<Long> ordersId;
-    private Long cartId;
-
 }
