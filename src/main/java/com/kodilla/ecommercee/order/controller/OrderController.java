@@ -20,20 +20,20 @@ public class OrderController {
     private final OrderMapper orderMapper;
 
     @GetMapping("getOrders")
-    public List<OrderDto> getAllUsers() {
+    public List<OrderDto> getAllOrders() {
         List<Order> orderList = orderDbService.getOrders();
         return orderMapper.mapDtoToOrderList(orderList);
     }
 
     @GetMapping("getOrder")
-    public Order getOrder(@RequestParam Long orderId) {
-        return orderDbService.getOrder(orderId)
-                .orElseThrow(() -> new OrderNotFoundException("Order of id '" + orderId + "' not found."));
+    public OrderDto getOrder(@RequestParam Long orderId) {
+        Order order = orderDbService.getOrder(orderId);
+        return orderMapper.mapOrderToDto(order);
     }
 
     @PostMapping("createOrder")
     public void createOrder(@RequestBody OrderDto orderDto) {
-        System.out.println("order " + orderDto + " created");
+        orderDbService.createOrder(orderMapper.mapDtoToOrder(orderDto));
     }
 
     @PutMapping("updateOrder")
@@ -50,7 +50,8 @@ public class OrderController {
 
     @GetMapping(path = "getProducts")
     public List<ProductDto> getProductsFromOrder(@RequestParam Long orderId) {
-        Order order = getOrder(orderId);
+        OrderDto orderDto = getOrder(orderId);
+        Order order = orderMapper.mapDtoToOrder(orderDto);
         return productMapper.mapToProductDtoList(order.getProducts());
     }
 }

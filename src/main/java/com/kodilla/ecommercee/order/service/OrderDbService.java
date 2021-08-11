@@ -1,5 +1,6 @@
 package com.kodilla.ecommercee.order.service;
 
+import com.kodilla.ecommercee.order.controller.OrderNotFoundException;
 import com.kodilla.ecommercee.order.domain.Order;
 import com.kodilla.ecommercee.order.repository.OrderDao;
 import lombok.Data;
@@ -21,8 +22,8 @@ public class OrderDbService {
         return orderDao.findAll();
     }
 
-    public Optional<Order> getOrder(Long orderId) {
-        return orderDao.findById(orderId);
+    public Order getOrder(Long orderId) {
+        return orderDao.findById(orderId).orElseThrow(() -> new OrderNotFoundException("Order with id: " + orderId + " not found"));
     }
 
     public void deleteOrderById(Long orderId) {
