@@ -2,29 +2,32 @@ package com.kodilla.ecommercee.order.domain;
 
 import com.kodilla.ecommercee.product.domain.Product;
 import com.kodilla.ecommercee.user.domain.User;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "ORDERS")
 public class Order {
-
-    public Order(@NotNull double price, @NotNull LocalDate dateOfOrder, User userId){
-        this.price = price;
+    public Order(@NotNull LocalDate dateOfOrder, @NotNull BigDecimal price, User user){
         this.dateOfOrder = dateOfOrder;
-        this.userId = userId;
+        this.price = price;
+        this.user = user;
+    }
+
+    public Order(@NotNull LocalDate dateOfOrder, @NotNull BigDecimal price, List<Product> products, User user){
+        this.dateOfOrder = dateOfOrder;
+        this.price = price;
+        this.products = products;
+        this.user = user;
     }
 
     @Id
@@ -35,15 +38,15 @@ public class Order {
 
     @NotNull
     @Column(name = "PRICE")
-    private double price;
+    private BigDecimal price;
 
     @NotNull
     @Column(name = "DATE")
     private LocalDate dateOfOrder;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")
-    private User userId;
+    private User user;
 
     @ManyToMany
     @JoinTable(

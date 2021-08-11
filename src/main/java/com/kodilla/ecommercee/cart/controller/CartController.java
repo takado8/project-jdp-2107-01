@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequestMapping("/v1/cart")
 @RestController
@@ -55,10 +56,11 @@ public class CartController {
     @PostMapping(path = "createOrder")
     public OrderDto createOrder(@RequestParam Long cartId) {
         Cart cart = getCart(cartId);
-        Order order = new Order(cart.getPrice().doubleValue(), LocalDate.now(), cart.getUser());
+        Order order = new Order(LocalDate.now(), cart.getPrice(), cart.getUser());
         order.setProducts(new ArrayList<>(cart.getProducts()));
+        List<Long> productIds = order.getProducts().stream().map(Product::getId).collect(Collectors.toList());
         Order savedOrder = cartDbService.createOrder(order);
-        return new OrderDto(savedOrder.getId(), savedOrder.getUserId().getId(), (int) savedOrder.getPrice());
+        return new OrderDto(savedOrder.getId(), savedOrder.getDateOfOrder(), savedOrder.getPrice(), productIds, savedOrder.getUser().getId());
     }
 
     private Cart getCart(Long cartId) {

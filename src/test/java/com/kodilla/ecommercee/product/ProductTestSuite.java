@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -157,7 +158,7 @@ public class ProductTestSuite {
 
         //When
         order.setDateOfOrder(LocalDate.now());
-        order.setPrice(56.66);
+        order.setPrice(new BigDecimal(56.66));
         order.getProducts().addAll(Arrays.asList(product, product2));
         orderDao.save(order);
         productDao.save(product);
