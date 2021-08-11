@@ -1,9 +1,11 @@
 package com.kodilla.ecommercee.cart.service;
 
+import com.kodilla.ecommercee.cart.controller.CartNotFoundException;
 import com.kodilla.ecommercee.cart.domain.Cart;
 import com.kodilla.ecommercee.cart.repository.CartDao;
 import com.kodilla.ecommercee.order.domain.Order;
 import com.kodilla.ecommercee.order.repository.OrderDao;
+import com.kodilla.ecommercee.product.controller.ProductNotFoundException;
 import com.kodilla.ecommercee.product.domain.Product;
 import com.kodilla.ecommercee.product.repository.ProductDao;
 import lombok.Data;
@@ -21,11 +23,11 @@ public class CartDbService {
     private final ProductDao productDao;
     private final OrderDao orderDao;
 
-    public Optional<Cart> getCart(Long cartId){
+    public Optional<Cart> getCart(Long cartId) {
         return cartDao.findById(cartId);
     }
 
-    public Cart createCart(Cart cart){
+    public Cart createCart(Cart cart) {
         return cartDao.save(cart);
     }
 
@@ -36,6 +38,13 @@ public class CartDbService {
 
     public Optional<Product> getProductToDelete(Long productId) {
         return productDao.findById(productId);
+    }
+
+    public void removeProductFromCart(Long cartId, Long productId) {
+        Cart cart = cartDao.findById(cartId).orElseThrow(() -> new CartNotFoundException("Missing cart with id " + cartId));
+        Product toRemove = productDao.findById(productId).orElseThrow(() -> new ProductNotFoundException("Missing produc with id " + productId));
+        cart.getProducts().remove(toRemove);
+        cartDao.save(cart);
     }
 
     public Order createOrder(Order order) {

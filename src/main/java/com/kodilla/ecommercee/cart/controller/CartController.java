@@ -3,6 +3,7 @@ package com.kodilla.ecommercee.cart.controller;
 import com.kodilla.ecommercee.cart.domain.Cart;
 import com.kodilla.ecommercee.cart.domain.CartDto;
 import com.kodilla.ecommercee.cart.mapper.CartMapper;
+import com.kodilla.ecommercee.cart.repository.CartDao;
 import com.kodilla.ecommercee.cart.service.CartDbService;
 import com.kodilla.ecommercee.order.domain.Order;
 import com.kodilla.ecommercee.product.domain.Product;
@@ -22,6 +23,7 @@ public class CartController {
     private final CartDbService cartDbService;
     private final CartMapper cartMapper;
     private final ProductMapper productMapper;
+    private final CartDao cartDao;
 
     @GetMapping(path = "getProducts")
     public List<ProductDto> getProducts(@RequestParam Long cartId) {
@@ -38,18 +40,12 @@ public class CartController {
     public void addProducts(@RequestParam List<Long> productsIds, @RequestParam Long cartId) {
         Cart cart = getCart(cartId);
         cartDbService.addProducts(productsIds, cart);
+        cartDao.save(cart);
     }
 
     @DeleteMapping(path = "deleteProduct")
-    public void deleteProduct(@RequestParam Long productId, @RequestParam Long cartId) throws Exception {
-        Cart cart = getCart(cartId);
-        Product product = cartDbService.getProductToDelete(productId)
-                .orElseThrow(() -> new RuntimeException("Product of id'" + productId + "' not found"));
-
-        if (!cart.getProducts().remove(product)) {
-            throw new Exception("Product of id '" + productId +
-                    "' not found in cart of id '" + cartId + "'");
-        }
+    public void deleteProduct(@RequestParam Long productId, @RequestParam Long cartId) {
+       cartDbService.removeProductFromCart(cartId,productId);
     }
 
     @PostMapping(path = "createOrder")

@@ -20,20 +20,20 @@ public class UserMapper {
 
     public User mapToUser(final UserDto userDto) {
         User user = new User(
-                userDto.getUserId(),
+//                userDto.getUserId(),
                 userDto.getUsername(),
                 userDto.isStatus(),
                 userDto.getUserKey(),
                 userDto.getEmail(),
                 userDto.getPassword(),
-                userDto.isBlocked(),
-                cartDao.findById(userDto.getCartId())
-                        .orElseThrow(() -> new RuntimeException("Cart of id " + userDto.getCartId() + " not exist")),
-                userDto.getOrdersId().stream()
-                        .map(orderDao::findById)
-                        .filter(Optional::isPresent)
-                        .map(Optional::get)
-                        .collect(Collectors.toList()));
+                userDto.isBlocked());
+//                cartDao.findById(userDto.getCartId())
+//                        .orElseThrow(() -> new RuntimeException("Cart of id " + userDto.getCartId() + " not exist")),
+//                userDto.getOrdersId().stream()
+//                        .map(orderDao::findById)
+//                        .filter(Optional::isPresent)
+//                        .map(Optional::get)
+//                        .collect(Collectors.toList()));
         return user;
     }
 
