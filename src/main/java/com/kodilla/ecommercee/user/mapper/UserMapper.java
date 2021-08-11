@@ -1,5 +1,6 @@
 package com.kodilla.ecommercee.user.mapper;
 
+import com.kodilla.ecommercee.cart.repository.CartDao;
 import com.kodilla.ecommercee.order.domain.Order;
 import com.kodilla.ecommercee.order.repository.OrderDao;
 import com.kodilla.ecommercee.user.domain.User;
@@ -18,6 +19,7 @@ public class UserMapper {
 
     public User mapToUser(final UserDto userDto) {
         User user = new User(
+                userDto.getUserId(),
                 userDto.getUsername(),
                 userDto.isStatus(),
                 userDto.getUserKey(),
