@@ -1,5 +1,6 @@
 package com.kodilla.ecommercee.user;
 
+import com.kodilla.ecommercee.cart.domain.Cart;
 import com.kodilla.ecommercee.order.domain.Order;
 import com.kodilla.ecommercee.order.repository.OrderDao;
 import com.kodilla.ecommercee.user.domain.User;
@@ -36,7 +37,8 @@ public class UserTestSuite {
 
     @Before
     public void setup() {
-        user = new User(1L, "john", false, "14113", "test@test.co", "test123", orders);
+        Cart cart = new Cart();
+        user = new User(1L, "john", false, "14113", "test@test.co", "test123", false, cart, orders);
     }
 
     @Test
@@ -85,7 +87,7 @@ public class UserTestSuite {
         orders.add(order);
         orders.add(order2);
         orders.add(order3);
-        user.setOrders(orders);
+        user.setOrdersId(orders);
         orderDao.save(order);
         orderDao.save(order2);
         orderDao.save(order3);
@@ -93,7 +95,7 @@ public class UserTestSuite {
         //When
         userDao.delete(user);
         //Then
-        assertEquals(user.getOrders().size(), 3);
+        assertEquals(user.getOrdersId().size(), 3);
         //Cleanup
         userDao.delete(user);
         orderDao.delete(order);
@@ -110,7 +112,7 @@ public class UserTestSuite {
         orders.add(order);
         orders.add(order2);
         orders.add(order3);
-        user.setOrders(orders);
+        user.setOrdersId(orders);
         orderDao.save(order);
         orderDao.save(order2);
         orderDao.save(order3);
