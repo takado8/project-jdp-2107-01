@@ -19,6 +19,25 @@ import java.util.List;
 @Entity
 public class User {
 
+    public User(String username, boolean status, String userKey, String email, String password, boolean isBlocked, List<Order> ordersId) {
+        this.username = username;
+        this.status = status;
+        this.userKey = userKey;
+        this.email = email;
+        this.password = password;
+        this.isBlocked = isBlocked;
+        this.ordersId = ordersId;
+    }
+
+    public User(String username, boolean status, String userKey, String email, String password, boolean isBlocked) {
+        this.username = username;
+        this.status = status;
+        this.userKey = userKey;
+        this.email = email;
+        this.password = password;
+        this.isBlocked = isBlocked;
+    }
+
     @Id
     @GeneratedValue
     @NotNull
