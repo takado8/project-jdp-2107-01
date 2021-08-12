@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 public class UserMapper {
 
     private final OrderDao orderDao;
-    private final CartDao cartDao;
 
     public User mapToUser(final UserDto userDto) {
         User user = new User(
@@ -27,8 +26,6 @@ public class UserMapper {
                 userDto.getEmail(),
                 userDto.getPassword(),
                 userDto.isBlocked(),
-                cartDao.findById(userDto.getCartId())
-                        .orElseThrow(() -> new RuntimeException("Cart of id " + userDto.getCartId() + " not exist")),
                 userDto.getOrdersId().stream()
                         .map(orderDao::findById)
                         .filter(Optional::isPresent)
@@ -48,8 +45,7 @@ public class UserMapper {
                 user.isBlocked(),
                 user.getOrdersId().stream()
                     .map(Order::getId)
-                    .collect(Collectors.toList()),
-                user.getCart().getId());
+                    .collect(Collectors.toList()));
         return userDto;
     }
 

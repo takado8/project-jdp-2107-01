@@ -38,6 +38,18 @@ public class User {
         this.isBlocked = isBlocked;
     }
 
+    public User( Long id, String username, boolean status, String userKey,
+                String email, String password, boolean isBlocked, List<Order> ordersId ) {
+        this.Id = id;
+        this.username = username;
+        this.status = status;
+        this.userKey = userKey;
+        this.email = email;
+        this.password = password;
+        this.isBlocked = isBlocked;
+        this.ordersId = ordersId;
+    }
+
     @Id
     @GeneratedValue
     @NotNull
