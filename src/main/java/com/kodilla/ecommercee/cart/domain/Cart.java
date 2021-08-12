@@ -3,7 +3,6 @@ package com.kodilla.ecommercee.cart.domain;
 import com.kodilla.ecommercee.product.domain.Product;
 import com.kodilla.ecommercee.user.domain.User;
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -49,7 +48,7 @@ public class Cart {
     @Column(name = "PRICE")
     private BigDecimal price;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID")
     private User user;
 
@@ -60,6 +59,4 @@ public class Cart {
             inverseJoinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID")}
     )
     private List<Product> products = new ArrayList<>();
-
-
 }
