@@ -16,21 +16,17 @@ import java.util.stream.Collectors;
 public class UserMapper {
 
     private final OrderDao orderDao;
+    private final CartDao cartDao;
 
     public User mapToUser(final UserDto userDto) {
         User user = new User(
-                userDto.getUserId(),
                 userDto.getUsername(),
                 userDto.isStatus(),
                 userDto.getUserKey(),
                 userDto.getEmail(),
                 userDto.getPassword(),
-                userDto.isBlocked(),
-                userDto.getOrdersId().stream()
-                        .map(orderDao::findById)
-                        .filter(Optional::isPresent)
-                        .map(Optional::get)
-                        .collect(Collectors.toList()));
+                userDto.isBlocked());
+
         return user;
     }
 
@@ -44,8 +40,8 @@ public class UserMapper {
                 user.getPassword(),
                 user.isBlocked(),
                 user.getOrdersId().stream()
-                    .map(Order::getId)
-                    .collect(Collectors.toList()));
+                        .map(Order::getId)
+                        .collect(Collectors.toList()));
         return userDto;
     }
 
