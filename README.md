@@ -2,7 +2,9 @@
 
 ## Project description
 
-This project demonstrates REST API implementation of E-commerce store, based on DB design model. (image)
+This project demonstrates REST API implementation of E-commerce store, based on DB design model.
+
+![DB Model](https://github.com/piotr-grosicki/project-jdp-2107-01/blob/main/src/main/resources/images/models.png)
 
 ## Demo
 
@@ -30,7 +32,12 @@ Run EcommerceeAppliction (Intelij keyboard shortcut Shift + F10)
 
 ## Project endpoints
 
-(images)
+![CartController API](https://github.com/piotr-grosicki/project-jdp-2107-01/blob/main/src/main/resources/images/cart-controller.png)
+![GroupController API](https://github.com/piotr-grosicki/project-jdp-2107-01/blob/main/src/main/resources/images/group-controller.png)
+![OrderController API](https://github.com/piotr-grosicki/project-jdp-2107-01/blob/main/src/main/resources/images/order-controller.png)
+![UserController API](https://github.com/piotr-grosicki/project-jdp-2107-01/blob/main/src/main/resources/images/user-controller.png)
+![ProductController API](https://github.com/piotr-grosicki/project-jdp-2107-01/blob/main/src/main/resources/images/product-controller.png)
+
 
 ## Practical use case
 

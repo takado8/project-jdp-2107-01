@@ -49,7 +49,6 @@ public class CartTestSuite {
         Assert.assertTrue(savedCart.isPresent());
 
         //Clean up
-        cartDao.deleteById(cart.getId());
         userDao.deleteById(user.getId());
         productDao.deleteById(product.getId());
     }
@@ -76,7 +75,6 @@ public class CartTestSuite {
         Assert.assertEquals("kurtka", productName);
 
         //Clean up
-        cartDao.deleteById(cart.getId());
         userDao.deleteById(user.getId());
         productDao.deleteById(product.getId());
     }
@@ -104,7 +102,6 @@ public class CartTestSuite {
         Assert.assertEquals("Pawel", savedCart.getUser().getUsername());
 
         //Clean up
-        cartDao.deleteById(cart.getId());
         userDao.deleteById(user.getId());
         productDao.deleteById(product.getId());
     }
@@ -135,7 +132,6 @@ public class CartTestSuite {
         Assert.assertEquals("changedCart", changedCart.getName());
 
         //Clean up
-        cartDao.deleteById(cart.getId());
         userDao.deleteById(user.getId());
         productDao.deleteById(product.getId());
     }
@@ -149,6 +145,7 @@ public class CartTestSuite {
         cart.getProducts().add(product);
         product.getCarts().add(cart);
         user.setUsername("Pawel");
+        user.setCart(cart);
         userDao.save(user);
         productDao.save(product);
         cartDao.save(cart);
@@ -157,25 +154,14 @@ public class CartTestSuite {
         long productId = product.getId();
 
         //When
-        Optional<Cart> optionalCart = cartDao.findById(cartId);
-        Cart savedCart = optionalCart.orElseThrow(() -> new RuntimeException("No Cart"));
-        long savedCartId = savedCart.getId();
-        cartDao.deleteById(savedCartId);
-
-        Optional<User> optionalUser = userDao.findById(userId);
-        User savedUser = optionalUser.orElseThrow(() -> new RuntimeException("No User"));
-        Optional<Product> optionalProduct = productDao.findById(productId);
-        Product savedProduct = optionalProduct.orElseThrow(() -> new RuntimeException("No Product"));
-
+        userDao.deleteById(userId);
+        
         //Then
-        Assert.assertFalse(cartDao.findById(savedCartId).isPresent());
         Assert.assertTrue(productDao.findById(productId).isPresent());
-        Assert.assertTrue(userDao.findById(userId).isPresent());
-        Assert.assertEquals("kurtka", savedProduct.getName());
-        Assert.assertEquals("Pawel", savedUser.getUsername());
+        Assert.assertFalse(cartDao.findById(cartId).isPresent());
+        Assert.assertFalse(userDao.findById(userId).isPresent());
 
         //Clean up
-        userDao.deleteById(user.getId());
         productDao.deleteById(product.getId());
     }
 }
