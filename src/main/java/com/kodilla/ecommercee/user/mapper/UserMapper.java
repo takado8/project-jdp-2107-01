@@ -40,9 +40,8 @@ public class UserMapper {
                 user.getPassword(),
                 user.isBlocked(),
                 user.getOrdersId().stream()
-                    .map(Order::getId)
-                    .collect(Collectors.toList()),
-                user.getCart().getId());
+                        .map(Order::getId)
+                        .collect(Collectors.toList()));
         return userDto;
     }
 

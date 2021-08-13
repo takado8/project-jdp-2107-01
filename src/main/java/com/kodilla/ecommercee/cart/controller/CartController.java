@@ -24,7 +24,7 @@ public class CartController {
     private final CartDbService cartDbService;
     private final CartMapper cartMapper;
     private final ProductMapper productMapper;
-    private final CartDao cartDao;
+
 
     @GetMapping(path = "getProducts")
     public List<ProductDto> getProducts(@RequestParam Long cartId) {
@@ -41,7 +41,7 @@ public class CartController {
     public void addProducts(@RequestParam List<Long> productsIds, @RequestParam Long cartId) {
         Cart cart = getCart(cartId);
         cartDbService.addProducts(productsIds, cart);
-        cartDao.save(cart);
+
     }
 
     @DeleteMapping(path = "deleteProduct")

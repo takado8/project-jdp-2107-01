@@ -8,6 +8,8 @@ import com.kodilla.ecommercee.user.repository.UserDao;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,4 +40,5 @@ public class CartMapper {
                 productDao.findAllById(cartDto.getProductsIds())
         );
     }
+
 }

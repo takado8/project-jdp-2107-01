@@ -11,6 +11,7 @@ import com.kodilla.ecommercee.product.repository.ProductDao;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +35,9 @@ public class CartDbService {
     public void addProducts(List<Long> productsIds, Cart cart) {
         List<Product> products = productDao.findAllById(productsIds);
         cart.getProducts().addAll(products);
+        BigDecimal price = calculateCartPrice(cart.getProducts());
+        cart.setPrice(price);
+        cartDao.save(cart);
     }
 
     public Optional<Product> getProductToDelete(Long productId) {
@@ -49,5 +53,17 @@ public class CartDbService {
 
     public Order createOrder(Order order) {
         return orderDao.save(order);
+    }
+
+    private BigDecimal calculateCartPrice(List<Product> products) {
+        BigDecimal price = BigDecimal.ZERO;
+        if (products == null) {
+            return price;
+        } else {
+            for (Product product : products) {
+                price = price.add(BigDecimal.valueOf(product.getPrice()));
+            }
+        }
+        return price;
     }
 }
